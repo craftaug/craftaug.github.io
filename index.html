@@ -10,6 +10,7 @@
   <title>
     CRAFT: Video Diffusion for Bimanual Robot Data Generation
   </title>
+  <link rel="icon" href="./static/images/favicon.svg" type="image/svg+xml">
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-GJE7LY9TD9"></script>
@@ -34,150 +35,1046 @@
   <script src="./static/js/bulma-carousel.min.js"></script>
   <script src="./static/js/bulma-slider.min.js"></script>
   <script src="./static/js/index.js"></script>
+  <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
+<!-- Scroll progress bar (fixed at top) -->
+<div class="craft-scroll-progress" role="presentation" aria-hidden="true">
+  <div class="craft-scroll-progress-bar" id="craft-scroll-progress-bar"></div>
+</div>
 
-<section class="hero is-link is-fullheight video" style="overflow: hidden; position:relative;">
-  <div class="hero-video" style="height: 100%; width: 177.77777778vh; min-width: 100%;min-height: 56.25vw;">
+<!-- Back to top button (fixed bottom-right) -->
+<a href="#hero" class="craft-back-to-top" id="craft-back-to-top" aria-label="Back to top" title="Back to top">
+  <i class="fas fa-chevron-up"></i>
+</a>
+
+<!-- Hero Section - Robometer-style layout -->
+<section class="hero-craft is-fullheight" id="hero">
+  <!-- Full-screen video background -->
+  <div class="hero-video-bg">
     <video playsinline autoplay muted loop>
-      <source src=" ./static/videos/teaser_v1.mp4" type="video/mp4">
+      <source src="./static/videos/teaser_v1_compressed.mp4" type="video/mp4">
     </video>
   </div>
-  <div class="hero-video is-hidden-tablet is-inline-block-mobile"
-    style="height: 154.28571428vw; width: 100%; min-width:64.81481481vh;min-height:100%;">
-    <video playsinline autoplay muted loop>
-      <source src=" ./static/videos/teaser_v1.mp4" type="video/mp4">
-    </video>
+  <div class="hero-overlay"></div>
+
+  <!-- Top Navigation Bar -->
+  <header class="craft-navbar">
+    <div class="craft-navbar-brand">
+      <a href="#hero" class="craft-logo">
+        <span class="craft-logo-icon">⛏️</span>
+        <span class="craft-logo-text">CRAFT</span>
+      </a>
+    </div>
+    <nav class="craft-navbar-links">
+      <a href="#abstract">Overview</a>
+      <a href="#umi">Method</a>
+      <a href="#results">Results</a>
+      <a href="#real-world-rollouts" class="craft-nav-hidden">Real-World Rollouts</a>
+      <a href="#object-pose-generation">Object Pose</a>
+      <a href="#lighting-generation">Lighting</a>
+      <a href="#object-color-generation">Object Color</a>
+      <a href="#background-generation">Background</a>
+      <a href="#crossembodiment-generation">Cross-Embodiment</a>
+      <a href="#wrist-generation">Wrist + 3rd Person</a>
+      <a href="#stress-testing">Stress Testing</a>
+    </nav>
+  </header>
+
+  <!-- Hero Content - Centered on video -->
+  <div class="hero-craft-body">
+    <div class="hero-craft-content">
+      <h1 class="craft-title craft-title-gradient">CRAFT: Video Diffusion for Bimanual Robot Data Generation</h1>
+      <p class="craft-zero-shot-badge">This website is not completed and we plan to add more videos. We uploaded a draft so that early reviewers can get a reference to our method. Thank you for spending your time to review our paper. We plan to complete the website by the end of March.</p>
+      <div class="craft-authors">
+        <p class="craft-authors-list">Anonymous Authors</p>
+        <p class="craft-affiliations">IROS 2026</p>
+      </div>
+      <div class="craft-buttons craft-buttons-hidden">
+        <a href="https://arxiv.org/abs/2407.10353" class="craft-btn craft-btn-arxiv">
+          <img src="./static/images/arxiv.svg" alt="arXiv" class="craft-btn-icon">
+          <span>arXiv</span>
+        </a>
+        <a href="./static/umi-on-legs.pdf" class="craft-btn craft-btn-paper">
+          <img src="./static/images/pdf.svg" alt="Paper" class="craft-btn-icon">
+          <span>Paper</span>
+        </a>
+        <a href="https://youtu.be/4Bp0q3xHTxE" class="craft-btn craft-btn-video">
+          <img src="./static/images/youtube.svg" alt="Video" class="craft-btn-icon">
+          <span>Video</span>
+        </a>
+        <a href="https://github.com/craftaug" class="craft-btn craft-btn-code">
+          <i class="fab fa-github craft-btn-icon"></i>
+          <span>Code</span>
+        </a>
+      </div>
+      <a href="#method-carousel" class="craft-scroll-indicator">
+        <span>SCROLL</span>
+        <i class="fas fa-chevron-down"></i>
+      </a>
+    </div>
   </div>
-  <div class="overlay"></div>
-  <!-- Hero head: will stick at the top -->
-  <div class="hero-head is-hidden-mobile">
-    <header class="navbar">
-      <div class="container is-size-5">
-        <div class="navbar-menu">
-          <div class="navbar-end">
-            <!-- <a class="navbar-item pl-4 pr-4" href="./static/">
-              <span class="icon" style="margin-right:5px;">
-                <img src="./static/images/pdf.svg" alt="PDF" />
-              </span>
-              <span>Paper</span>
-            </a>
-            <a class="navbar-item  pl-4 pr-4" href="">
-              <span class="icon" style="margin-right:5px;">
-                <img src="./static/images/arxiv.svg" alt="ArXiv" />
-              </span>
-              <span>arXiv</span> </a>
-            <a href="" class="navbar-item  pl-4 pr-4">
-              <span class="icon" style="margin-right:5px;">
-                <img src="./static/images/youtube.svg" alt="Youtube" />
-              </span>
-              <span>Video</span> </a>
-            <span class="navbar-item  pl-4 pr-4">
-              <a href="" class="button is-inverted is-large">
-                <span class="icon">
-                  <i class="fab fa-github"></i>
-                </span>
-                <span>Code</span>
-              </a>
-            </span> -->
+</section>
+
+<!-- Method carousel (below hero, outside hero teaser) -->
+<section class="craft-method-carousel-section craft-scroll-animate" id="method-carousel">
+  <div class="craft-method-carousel-header">
+    <h2 class="craft-section-title craft-section-title-invert">Method Videos</h2>
+    <p class="craft-augmentation-desc craft-augmentation-desc-invert">A quick tour of CRAFT generations across six augmentation axes.</p>
+    <a class="craft-btn craft-btn-paper craft-carousel-cta" href="#umi">Jump to Method</a>
+  </div>
+
+  <div class="craft-carousel" id="craft-method-carousel" data-interval-ms="5000" tabindex="0" aria-label="Method video carousel">
+    <div class="craft-carousel-viewport">
+      <div class="craft-carousel-inner">
+        <div class="craft-carousel-row craft-carousel-row-top" id="craft-carousel-row-top">
+          <!-- Top row: larger cards -->
+          <div class="craft-carousel-card">
+            <video autoplay muted loop playsinline preload="metadata">
+              <source src="./static/videos/object_pose_generation/stack_two_bowls/stack_two_bowls1.mp4" type="video/mp4">
+            </video>
+            <div class="craft-carousel-label">Object pose · Stack bowls</div>
+          </div>
+          <div class="craft-carousel-card">
+            <video autoplay muted loop playsinline preload="metadata">
+              <source src="./static/videos/lighting_generation/stack_two_bowls/stack_two_bowls1.mp4" type="video/mp4">
+            </video>
+            <div class="craft-carousel-label">Lighting · Stack bowls</div>
+          </div>
+          <div class="craft-carousel-card">
+            <video autoplay muted loop playsinline preload="metadata">
+              <source src="./static/videos/crossembodiment/stack_two_bowls/stack_bowls_two1.mp4" type="video/mp4">
+            </video>
+            <div class="craft-carousel-label">Cross-embodiment · Stack bowls</div>
+          </div>
+          <div class="craft-carousel-card">
+            <video autoplay muted loop playsinline preload="metadata">
+              <source src="./static/videos/object_pose_generation/lift_roller/grab_roller1.mp4" type="video/mp4">
+            </video>
+            <div class="craft-carousel-label">Object pose · Lift roller</div>
+          </div>
+          <div class="craft-carousel-card">
+            <video autoplay muted loop playsinline preload="metadata">
+              <source src="./static/videos/object_pose_generation/place_cans_plasticbox/place_cans_plasticbox1.mp4" type="video/mp4">
+            </video>
+            <div class="craft-carousel-label">Object pose · Place cans</div>
+          </div>
+          <div class="craft-carousel-card">
+            <video autoplay muted loop playsinline preload="metadata">
+              <source src="./static/videos/why_canny/stack_two_bowls.mp4" type="video/mp4">
+            </video>
+            <div class="craft-carousel-label">Canny-edge conditioning</div>
+          </div>
+          <div class="craft-carousel-card">
+            <video autoplay muted loop playsinline preload="metadata">
+              <source src="./static/videos/stress_testing/beyond_franka/background_generation.mp4" type="video/mp4">
+            </video>
+            <div class="craft-carousel-label">Beyond Franka · Background</div>
+          </div>
+        </div>
+
+        <div class="craft-carousel-row craft-carousel-row-bottom" id="craft-carousel-row-bottom">
+          <!-- Bottom row: slightly smaller cards -->
+          <div class="craft-carousel-card">
+            <video autoplay muted loop playsinline preload="metadata">
+              <source src="./static/videos/background_generation/stack_two_bowls/stack_bowls_two1.mp4" type="video/mp4">
+            </video>
+            <div class="craft-carousel-label">Background · Stack bowls</div>
+          </div>
+          <div class="craft-carousel-card">
+            <video autoplay muted loop playsinline preload="metadata">
+              <source src="./static/videos/object_color_generation/stack_bowls_two/stack_bowls_two1.mp4" type="video/mp4">
+            </video>
+            <div class="craft-carousel-label">Object color · Stack bowls</div>
+          </div>
+          <div class="craft-carousel-card">
+            <video autoplay muted loop playsinline preload="metadata">
+              <source src="./static/videos/wrist/stack_two_bowls/stack_two_bowls.mp4" type="video/mp4">
+            </video>
+            <div class="craft-carousel-label">Wrist + 3rd · Stack bowls</div>
+          </div>
+          <div class="craft-carousel-card">
+            <video autoplay muted loop playsinline preload="metadata">
+              <source src="./static/videos/object_color_generation/grab_roller/grab_roller1.mp4" type="video/mp4">
+            </video>
+            <div class="craft-carousel-label">Object color · Lift roller</div>
+          </div>
+          <div class="craft-carousel-card">
+            <video autoplay muted loop playsinline preload="metadata">
+              <source src="./static/videos/background_generation/place_cans_plasticbox/place_cans_plasticbox1.mp4" type="video/mp4">
+            </video>
+            <div class="craft-carousel-label">Background · Place cans</div>
+          </div>
+          <div class="craft-carousel-card">
+            <video autoplay muted loop playsinline preload="metadata">
+              <source src="./static/videos/stress_testing/object_distractor/object_distractor.mp4" type="video/mp4">
+            </video>
+            <div class="craft-carousel-label">Object distractors</div>
+          </div>
+          <div class="craft-carousel-card">
+            <video autoplay muted loop playsinline preload="metadata">
+              <source src="./static/videos/stress_testing/different_reference/reference_image_generation.mp4" type="video/mp4">
+            </video>
+            <div class="craft-carousel-label">Different reference image</div>
           </div>
         </div>
       </div>
-    </header>
+    </div>
+
+    <div class="craft-carousel-controls" aria-label="Carousel controls">
+      <button class="craft-carousel-playpause" type="button" aria-label="Pause carousel">
+        <i class="fas fa-pause" aria-hidden="true"></i>
+        <span class="craft-carousel-playpause-text">Pause</span>
+      </button>
+      <div class="craft-carousel-dots" role="tablist" aria-label="Carousel pages">
+        <button class="craft-carousel-dot is-active" type="button" role="tab" aria-selected="true" aria-label="Position 1"></button>
+        <button class="craft-carousel-dot" type="button" role="tab" aria-selected="false" aria-label="Position 2"></button>
+        <button class="craft-carousel-dot" type="button" role="tab" aria-selected="false" aria-label="Position 3"></button>
+        <button class="craft-carousel-dot" type="button" role="tab" aria-selected="false" aria-label="Position 4"></button>
+      </div>
+    </div>
   </div>
 
-  <!-- Hero content: will be in the middle -->
-  <div class="hero-body">
-    <div class="container has-text-centered">
-      <h1 class="title is-1 publication-title is-size-1-mobile" style="font-size: 12rem;">
-        CRAFT
-      </h1>
-      <h1 class="subtitle is-1 publication-title is-size-4-mobile" style="font-size: 4rem;">
-        Video Diffusion for Bimanual Robot Data Generation
-      </h1>
-      <div class="column has-text-centered is-hidden-tablet">
-        <div class="publication-links">
-          <!-- PDF Link. -->
-          <span class="link-block">
-            <a href="./static/umi-on-legs.pdf" class="external-link button is-normal is-rounded is-dark">
-              <span class="icon">
-                <img src="./static/images/pdf.svg" alt="PDF" />
-              </span>
-              <span>Paper</span>
-            </a>
-          </span>
-          <span class="link-block">
-            <a href="https://arxiv.org/abs/2407.10353" class="external-link button is-normal is-rounded is-dark">
-              <span class="icon">
-                <img src="./static/images/arxiv.svg" alt="ArXiv" />
-              </span>
-              <span>arXiv</span>
-            </a>
-          </span>
-          <!-- Video Link. -->
-          <span class="link-block">
-            <a href="https://youtu.be/4Bp0q3xHTxE" class="external-link button is-normal is-rounded is-dark">
-              <span class="icon">
-                <img src="./static/images/youtube.svg" alt="Youtube" />
-              </span>
-              <span>Video</span>
-            </a>
-          </span>
+  <!-- Key contributions (moved up from Abstract) -->
+  <div class="container is-max-desktop craft-contributions-container">
+    <h3 class="craft-subsection-title">Key Contributions</h3>
+    <div class="craft-contributions craft-stagger-children">
+      <div class="craft-contribution-card">
+        <div class="craft-contribution-icon"><i class="fas fa-project-diagram"></i></div>
+        <h4>Canny-Edge Conditioning</h4>
+        <p>A novel method utilizing Canny edge images as control input to condition video generative models, producing high-quality and diverse robot videos.</p>
+      </div>
+      <div class="craft-contribution-card">
+        <div class="craft-contribution-icon"><i class="fas fa-robot"></i></div>
+        <h4>Unified Bimanual Pipeline</h4>
+        <p>A new pipeline for bimanual cross-embodiment manipulation that performs six types of image augmentations in a single framework.</p>
+      </div>
+      <div class="craft-contribution-card">
+        <div class="craft-contribution-icon"><i class="fas fa-chart-line"></i></div>
+        <h4>Strong Empirical Results</h4>
+        <p>Simulation and real-world experiments demonstrating that policies trained on CRAFT-generated data significantly outperform baselines.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Method -->
+<section class="craft-section craft-scroll-animate" id="umi">
+  <div class="container is-max-desktop">
+    <h2 class="craft-section-title">Method</h2>
+    <div class="craft-method-figure">
+      <img src="./static/images/figure_method.png" class="craft-figure-img" alt="CRAFT method overview"/>
+      <p class="craft-figure-caption">Figure 2: CRAFT pipeline. (1) Trajectory Expansion via Real2Sim digital twin. (2) Video Generation with Canny-edge conditioning. (3) Augmented Dataset Construction across six axes. (4) Generated Dataset for policy training.</p>
+    </div>
+    <div class="craft-method-flow" aria-label="CRAFT method overview">
+      <div class="craft-method-flow-line" aria-hidden="true"></div>
+
+      <div class="craft-method-flow-step">
+        <div class="craft-method-flow-badge craft-method-flow-badge-1">1</div>
+        <div class="craft-method-flow-title">Trajectory Expansion</div>
+        <div class="craft-method-flow-desc">Real-world teleoperation data is collected, and a digital twin pipeline transfers objects and robot into simulation (Real2Sim) for large-scale data generation.</div>
+      </div>
+
+      <div class="craft-method-flow-step">
+        <div class="craft-method-flow-badge craft-method-flow-badge-2">2</div>
+        <div class="craft-method-flow-title">Video Generation</div>
+        <div class="craft-method-flow-desc">Simulation trajectories are rendered into source videos and converted into Canny-edge controls, then combined with a reference image + language instruction to condition a video diffusion model.</div>
+      </div>
+
+      <div class="craft-method-flow-step">
+        <div class="craft-method-flow-badge craft-method-flow-badge-3">3</div>
+        <div class="craft-method-flow-title">Augmented Dataset Construction</div>
+        <div class="craft-method-flow-desc">Generated videos cover six variation axes: object pose, lighting, object color, background, cross-embodiment, and wrist + third-person views.</div>
+      </div>
+
+      <div class="craft-method-flow-step">
+        <div class="craft-method-flow-badge craft-method-flow-badge-4">4</div>
+        <div class="craft-method-flow-title">Generated Dataset</div>
+        <div class="craft-method-flow-desc">Synthesized videos are paired with action labels from simulation trajectories to produce action-consistent demonstrations \(\mathcal{D}^{\text{gen}}\) for downstream ACT policy training.</div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Method -->
+
+<!-- Why Canny-Edges -->
+<section class="craft-section craft-scroll-animate craft-section-alt" id="why-canny">
+  <div class="container is-max-desktop">
+    <h2 class="craft-section-title">Why Canny-Edges?</h2>
+    <div class="craft-comparison-box">
+      <div class="craft-comparison-item craft-comparison-bad">
+        <h4>Raw Simulation Images</h4>
+        <p>Retain too much low-level detail, causing the diffusion model to struggle with salient structural features such as gripper-object contact.</p>
+      </div>
+      <div class="craft-comparison-item craft-comparison-good">
+        <h4>Canny-Edge Representations</h4>
+        <p>Discard irrelevant details while preserving robot arm and object structure, giving clear guidance and allowing free variation of backgrounds, object colors, and lighting through prompting.</p>
+      </div>
+    </div>
+    <div class="craft-video-demo">
+      <h4>Stack Two Bowls — Canny-edge conditioned generation</h4>
+      <video autoplay muted loop playsinline>
+        <source src="./static/videos/why_canny/stack_two_bowls.mp4" type="video/mp4">
+      </video>
+      <p class="craft-prompt-intro">The video above was produced by the video generation model using the language instruction below (together with Canny-edge control).</p>
+      <details class="craft-prompt-dropdown">
+        <summary><span class="craft-prompt-summary-text">Language instruction used for this generation</span><span class="craft-prompt-chevron" aria-hidden="true"></span></summary>
+        <div class="craft-prompt-inner">
+          <pre class="craft-prompt-text"><code>Overhead shot with balanced, even lighting. Neutral background with clear
+illumination across the task area. COMPLETELY STATIONARY background curtains and table - absolutely
+no movement, no swaying, no wind, frozen and still like a photograph throughout the entire
+video. The background fabric and table fabric remains perfectly static while only the robot arms move.
+
+Two white industrial robotic arms with visible structural detail are positioned symmetrically.
+Two light-colored shallow gray bowls or containers are clearly visible on the dark fabric
+surface with defined edges.
+
+CRITICAL: The robotic grippers make firm, realistic contact with the bowl edges. Fingers
+wrap securely around the bowl rims with no gaps or floating. Natural grasping mechanics
+with proper finger placement and stable grip throughout the entire motion. Physical contact
+remains consistent with no slipping or separation between gripper and bowl surfaces.
+
+The scene has well-balanced lighting that clearly shows all objects - robot arms, bowls,
+and surface - with good detail and natural contrast. No harsh shadows or overexposed areas.
+Clean, professional appearance with sufficient light to see all action clearly. Sharp focus
+on the manipulation task.
+
+ONLY the robot arms and bowls move - all background elements including curtains, fabric,
+and surfaces remain completely frozen and motionless throughout the entire sequence.
+
+4K quality.</code></pre>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- Experiment Setup & Results -->
+<section class="craft-section craft-scroll-animate" id="results">
+  <div class="container is-max-desktop">
+    <h2 class="craft-section-title">Experiment Setup</h2>
+    <div class="craft-setup-panel">
+      <div class="craft-setup-stages">
+        <div class="craft-setup-stage craft-setup-stage-gen">
+          <div class="craft-setup-stage-top">
+            <div class="craft-setup-stage-badge">I</div>
+            <div class="craft-setup-stage-headings">
+              <h3>Video Generation</h3>
+              <p>Generate photorealistic, action-consistent robot videos from simulator rollouts using a pre-trained diffusion model.</p>
+            </div>
+          </div>
+          <div class="craft-setup-pills" aria-label="Generation components">
+            <span class="craft-pill">Wan2.1-Fun-Control 1.3B</span>
+            <span class="craft-pill">Canny-edge control</span>
+            <span class="craft-pill">512×512 input</span>
+          </div>
+        </div>
+
+        <div class="craft-setup-stage craft-setup-stage-train">
+          <div class="craft-setup-stage-top">
+            <div class="craft-setup-stage-badge">II</div>
+            <div class="craft-setup-stage-headings">
+              <h3>Policy Training & Evaluation</h3>
+              <p>Train ACT on real + generated demonstrations and evaluate robustness under controlled distribution shifts.</p>
+            </div>
+          </div>
+          <div class="craft-setup-pills" aria-label="Training components">
+            <span class="craft-pill">ACT Policy</span>
+            <span class="craft-pill">RoboTwin Benchmark</span>
+            <span class="craft-pill">Success rate (%)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="craft-setup-mini">
+        <div class="craft-setup-mini-title">
+          <i class="fas fa-sliders-h" aria-hidden="true"></i>
+          <span>Core setup</span>
+        </div>
+        <div class="craft-setup-mini-grid">
+          <div class="craft-setup-mini-card">
+            <div class="craft-setup-mini-icon"><i class="fas fa-microchip" aria-hidden="true"></i></div>
+            <div class="craft-setup-mini-text">
+              <div class="craft-setup-mini-k">Model</div>
+              <div class="craft-setup-mini-v">Wan2.1-Fun-Control 1.3B</div>
+            </div>
+          </div>
+          <div class="craft-setup-mini-card">
+            <div class="craft-setup-mini-icon"><i class="fas fa-video" aria-hidden="true"></i></div>
+            <div class="craft-setup-mini-text">
+              <div class="craft-setup-mini-k">Input</div>
+              <div class="craft-setup-mini-v">512×512</div>
+            </div>
+          </div>
+          <div class="craft-setup-mini-card">
+            <div class="craft-setup-mini-icon"><i class="fas fa-robot" aria-hidden="true"></i></div>
+            <div class="craft-setup-mini-text">
+              <div class="craft-setup-mini-k">Policy</div>
+              <div class="craft-setup-mini-v">ACT</div>
+            </div>
+          </div>
+          <div class="craft-setup-mini-card">
+            <div class="craft-setup-mini-icon"><i class="fas fa-database" aria-hidden="true"></i></div>
+            <div class="craft-setup-mini-text">
+              <div class="craft-setup-mini-k">Benchmark</div>
+              <div class="craft-setup-mini-v">RoboTwin</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="craft-task-boxes">
+      <h3 class="craft-subsection-title">Tasks</h3>
+      <div class="craft-task-cards craft-stagger-children">
+        <div class="craft-task-card">
+          <strong>Lift Roller</strong>
+          <p>Coordinated bimanual task where both arms simultaneously grasp and lift.</p>
+        </div>
+        <div class="craft-task-card">
+          <strong>Place Cans in Plasticbox</strong>
+          <p>Parallel task where both arms independently pick up cans and place them into a container.</p>
+        </div>
+        <div class="craft-task-card">
+          <strong>Stack Two Bowls</strong>
+          <p>Sequential task where two bowls must be stacked on top of each other in order.</p>
         </div>
       </div>
     </div>
 
-  </div>
-
-  <!-- Hero footer: will stick at the bottom -->
-  <div class="hero-foot is-hidden-mobile">
-    <nav class="tabs is-boxed is-fullwidth is-size-5">
-      <ul>
-        <!-- <li><a href="#umi">Robot Data without Robots</a></li>
-        <li><a href="#task-tracking">Task Tracking without Simulating Tasks</a></li>
-        <li><a href="#wbc">Whole-body Controller</a></li>
-        <li><a href="#hardware">Hardware & System</a></li>
-        <li><a href="#qa">Q & A</a></li> -->
-      </ul>
-    </nav>
+    <h2 class="craft-section-title">Real-World Augmentation Results</h2>
+    <p class="craft-table-caption">Success rates (%). Each method evaluated under test conditions varying only along that dimension. CRAFT (Ours) uses 1000 generated demos + real-world collected demos. Cross-Embodiment: xArm7 → Franka Panda transfer.</p>
+    <div class="craft-results-tabs">
+      <div class="craft-tab-buttons craft-results-tab-buttons">
+        <button class="craft-tab-btn is-active" data-task="results_lighting">Lighting</button>
+        <button class="craft-tab-btn" data-task="results_background">Background</button>
+        <button class="craft-tab-btn" data-task="results_camera">Camera View</button>
+        <button class="craft-tab-btn" data-task="results_object_color">Object Color</button>
+        <button class="craft-tab-btn" data-task="results_wrist">Wrist + 3rd Person</button>
+        <button class="craft-tab-btn" data-task="results_crossembodiment">Cross-Embodiment</button>
+      </div>
+      <div class="craft-results-panels">
+        <div id="results_lighting" class="craft-results-panel craft-chart-container">
+          <h4>Lighting</h4>
+          <div class="chart-wrapper chart-wrapper-large"><canvas id="chart-lighting"></canvas></div>
+        </div>
+        <div id="results_background" class="craft-results-panel craft-chart-container" style="display:none">
+          <h4>Background</h4>
+          <div class="chart-wrapper chart-wrapper-large"><canvas id="chart-background"></canvas></div>
+        </div>
+        <div id="results_camera" class="craft-results-panel craft-chart-container" style="display:none">
+          <h4>Camera View</h4>
+          <div class="chart-wrapper chart-wrapper-large"><canvas id="chart-camera"></canvas></div>
+        </div>
+        <div id="results_object_color" class="craft-results-panel craft-chart-container" style="display:none">
+          <h4>Object Color</h4>
+          <div class="chart-wrapper chart-wrapper-large"><canvas id="chart-object-color"></canvas></div>
+        </div>
+        <div id="results_wrist" class="craft-results-panel craft-chart-container" style="display:none">
+          <h4>Wrist + 3rd Person</h4>
+          <div class="chart-wrapper chart-wrapper-large"><canvas id="chart-wrist"></canvas></div>
+        </div>
+        <div id="results_crossembodiment" class="craft-results-panel craft-chart-container" style="display:none">
+          <h4>Cross-Embodiment</h4>
+          <div class="chart-wrapper chart-wrapper-large"><canvas id="chart-crossembodiment"></canvas></div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
- <!-- Abstract -->
-  <section class="section" id="abstract">
-    <div class="container is-max-widescreen">
-      <div class="columns is-centered">
-        <div class="column is-four-fifths has-text-justified">
-          <h2 class="title is-3 has-text-centered">Abstract</h2>
+<!-- Real-World Video Rollouts -->
+<section class="craft-section craft-scroll-animate craft-section-alt" id="real-world-rollouts">
+  <div class="container is-max-widescreen">
+    <h2 class="craft-section-title">Real-World Video Rollouts</h2>
+    <p class="craft-augmentation-desc">Policy rollouts on physical hardware for each augmentation type. Policies are trained with CRAFT-generated data and evaluated under the corresponding test condition.</p>
+    <div class="craft-rollout-tabs">
+      <div class="craft-tab-buttons">
+        <button class="craft-tab-btn is-active" data-task="rollout_object_pose">Object Pose</button>
+        <button class="craft-tab-btn" data-task="rollout_lighting">Lighting</button>
+        <button class="craft-tab-btn" data-task="rollout_object_color">Object Color</button>
+        <button class="craft-tab-btn" data-task="rollout_background">Background</button>
+        <button class="craft-tab-btn" data-task="rollout_crossembodiment">Cross-Embodiment</button>
+        <button class="craft-tab-btn" data-task="rollout_wrist">Wrist + 3rd Person</button>
+      </div>
+      <div class="craft-rollout-content">
+        <div id="rollout_object_pose" class="craft-rollout-panel">
+          <h4>Object Pose — Unseen object positions</h4>
+          <div class="craft-rollout-videos">
+            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/teaser_v1_compressed.mp4" type="video/mp4"></video><span>Lift Roller</span></div>
+            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/teaser_v1_compressed.mp4" type="video/mp4"></video><span>Place Cans</span></div>
+            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/teaser_v1_compressed.mp4" type="video/mp4"></video><span>Stack Bowls</span></div>
+          </div>
+        </div>
+        <div id="rollout_lighting" class="craft-rollout-panel" style="display:none">
+          <h4>Lighting — Unseen ambient illumination</h4>
+          <div class="craft-rollout-videos">
+            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/teaser_v1_compressed.mp4" type="video/mp4"></video><span>Blue lighting</span></div>
+            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/teaser_v1_compressed.mp4" type="video/mp4"></video><span>Green lighting</span></div>
+          </div>
+        </div>
+        <div id="rollout_object_color" class="craft-rollout-panel" style="display:none">
+          <h4>Object Color — Unseen object colors (trained on red, tested on gray)</h4>
+          <div class="craft-rollout-videos">
+            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/teaser_v1_compressed.mp4" type="video/mp4"></video><span>Placeholder</span></div>
+          </div>
+        </div>
+        <div id="rollout_background" class="craft-rollout-panel" style="display:none">
+          <h4>Background — Unseen background scenes</h4>
+          <div class="craft-rollout-videos">
+            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/teaser_v1_compressed.mp4" type="video/mp4"></video><span>Placeholder</span></div>
+          </div>
+        </div>
+        <div id="rollout_crossembodiment" class="craft-rollout-panel" style="display:none">
+          <h4>Cross-Embodiment — xArm7 demos transferred to Franka</h4>
+          <div class="craft-rollout-videos">
+            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/teaser_v1_compressed.mp4" type="video/mp4"></video><span>Placeholder</span></div>
+          </div>
+        </div>
+        <div id="rollout_wrist" class="craft-rollout-panel" style="display:none">
+          <h4>Wrist + 3rd Person — Multi-view policy execution</h4>
+          <div class="craft-rollout-videos">
+            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/teaser_v1_compressed.mp4" type="video/mp4"></video><span>Placeholder</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="craft-rollout-note">Currently showing teaser as placeholder. Add your real-world rollout videos to <code>static/videos/rollouts/&lt;augmentation_type&gt;/</code> and update the source paths above.</p>
+  </div>
+</section>
+
+<!-- Object Pose Generation -->
+<div class="craft-section craft-scroll-animate craft-augmentation-section" id="object-pose-generation">
+  <div class="container is-max-widescreen">
+    <h2 class="craft-section-title">Object Pose Generation</h2>
+    <p class="craft-augmentation-desc">For each trajectory, the simulator applies random translations and rotations to the target object's pose, sampled from a uniform distribution over the physically feasible workspace.</p>
+    <div class="craft-video-tabs">
+      <div class="craft-tab-buttons">
+        <button class="craft-tab-btn is-active" data-task="stack_two_bowls">Stack Two Bowls</button>
+        <button class="craft-tab-btn" data-task="lift_roller">Lift Roller</button>
+        <button class="craft-tab-btn" data-task="place_cans_in_plasticbox">Place Cans In Plasticbox</button>
+      </div>
+      <div id="baseline-container" class="craft-video-grid">
+        <div id="stack_two_bowls" class="craft-task-videos">
+          <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/object_pose_generation/stack_two_bowls/stack_two_bowls1.mp4" type="video/mp4"></video><span>Sample 1</span></div>
+          <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/object_pose_generation/stack_two_bowls/stack_two_bowls2.mp4" type="video/mp4"></video><span>Sample 2</span></div>
+        </div>
+        <div id="lift_roller" class="craft-task-videos" style="display:none">
+          <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/object_pose_generation/lift_roller/grab_roller1.mp4" type="video/mp4"></video><span>Sample 1</span></div>
+          <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/object_pose_generation/lift_roller/grab_roller2.mp4" type="video/mp4"></video><span>Sample 2</span></div>
+        </div>
+        <div id="place_cans_in_plasticbox" class="craft-task-videos" style="display:none">
+          <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/object_pose_generation/place_cans_plasticbox/place_cans_plasticbox1.mp4" type="video/mp4"></video><span>Sample 1</span></div>
+          <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/object_pose_generation/place_cans_plasticbox/place_cans_plasticbox2.mp4" type="video/mp4"></video><span>Sample 2</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Object Pose Generation -->
+
+<!-- Lighting Generation -->
+<div class="craft-section craft-scroll-animate craft-section-alt craft-augmentation-section" id="lighting-generation">
+  <div class="container is-max-widescreen">
+    <h2 class="craft-section-title">Lighting Generation</h2>
+    <p class="craft-augmentation-desc">We generate diverse lighting conditions by prompting Veo3 to synthesize variants of the reference image under different ambient illumination (e.g., blue or green lighting). Unlike simple color jitter, this preserves scene properties like shadows and surface reflections.</p>
+    <div class="craft-video-tabs">
+      <div class="craft-tab-buttons">
+        <button class="craft-tab-btn is-active" data-task="lighting_stack_two_bowls">Stack Two Bowls</button>
+        <button class="craft-tab-btn" data-task="lighting_lift_roller">Lift Roller</button>
+        <button class="craft-tab-btn" data-task="lighting_place_cans_in_plasticbox">Place Cans In Plasticbox</button>
+      </div>
+      <div id="lighting-container" class="craft-video-grid">
+        <div id="lighting_stack_two_bowls" class="craft-task-videos">
+          <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/lighting_generation/stack_two_bowls/stack_two_bowls1.mp4" type="video/mp4"></video><span>Sample 1</span></div>
+          <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/lighting_generation/stack_two_bowls/stack_two_bowls2.mp4" type="video/mp4"></video><span>Sample 2</span></div>
+        </div>
+        <div id="lighting_lift_roller" class="craft-task-videos" style="display:none">
+          <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/lighting_generation/grab_roller/grab_roller1.mp4" type="video/mp4"></video><span>Sample 1</span></div>
+          <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/lighting_generation/grab_roller/grab_roller2.mp4" type="video/mp4"></video><span>Sample 2</span></div>
+        </div>
+        <div id="lighting_place_cans_in_plasticbox" class="craft-task-videos" style="display:none">
+          <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/lighting_generation/place_cans_plasticbox/place_cans_plasticbox1.mp4" type="video/mp4"></video><span>Sample 1</span></div>
+          <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/lighting_generation/place_cans_plasticbox/place_cans_plasticbox2.mp4" type="video/mp4"></video><span>Sample 2</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Object Pose Generation -->
+
+<!-- Object Color Generation -->
+<div class="craft-section craft-scroll-animate craft-augmentation-section" id="object-color-generation">
+  <div class="container is-max-widescreen">
+    <h2 class="craft-section-title">Object Color Generation</h2>
+    <p class="craft-augmentation-desc">To generate diverse object colors, the model conditions on a reference image of the empty table scene, allowing the language instruction to freely specify the desired color while Canny-edge control provides object contours and location.</p>
+    <div class="craft-video-tabs">
+      <div class="craft-tab-buttons">
+        <button class="craft-tab-btn is-active" data-task="object-color_stack_two_bowls">Stack Two Bowls</button>
+        <button class="craft-tab-btn" data-task="object-color_lift_roller">Lift Roller</button>
+        <button class="craft-tab-btn" data-task="object-color_place_cans_in_plasticbox">Place Cans In Plasticbox</button>
+      </div>
+      <div id="object-color-container" class="craft-video-grid">
+        <div id="object-color_stack_two_bowls" class="craft-task-videos">
+          <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/object_color_generation/stack_bowls_two/stack_bowls_two1.mp4" type="video/mp4"></video><span>Sample 1</span></div>
+          <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/object_color_generation/stack_bowls_two/stack_bowls_two2.mp4" type="video/mp4"></video><span>Sample 2</span></div>
+        </div>
+        <div id="object-color_lift_roller" class="craft-task-videos" style="display:none">
+          <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/object_color_generation/grab_roller/grab_roller1.mp4" type="video/mp4"></video><span>Sample 1</span></div>
+          <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/object_color_generation/grab_roller/grab_roller2.mp4" type="video/mp4"></video><span>Sample 2</span></div>
+        </div>
+        <div id="object-color_place_cans_in_plasticbox" class="craft-task-videos" style="display:none">
+          <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/object_color_generation/place_cans_plasticbox/place_cans_plasticbox1.mp4" type="video/mp4"></video><span>Sample 1</span></div>
+          <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/object_color_generation/place_cans_plasticbox/place_cans_plasticbox2.mp4" type="video/mp4"></video><span>Sample 2</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Object Color Generation -->
+
+<!-- Background Generation -->
+<div class="craft-section craft-scroll-animate craft-section-alt craft-augmentation-section" id="background-generation">
+  <div class="container is-max-widescreen">
+    <h2 class="craft-section-title">Background Generation</h2>
+    <p class="craft-augmentation-desc">To generate diverse backgrounds, we omit the reference image from the video diffusion model—conditioning on it would anchor the generated scene to the original environment. Instead, we modify the language instruction to describe the desired background.</p>
+    <div class="craft-video-tabs">
+      <div class="craft-tab-buttons">
+        <button class="craft-tab-btn is-active" data-task="background_stack_two_bowls">Stack Two Bowls</button>
+        <button class="craft-tab-btn" data-task="background_lift_roller">Lift Roller</button>
+        <button class="craft-tab-btn" data-task="background_place_cans_in_plasticbox">Place Cans In Plasticbox</button>
+      </div>
+      <div id="background-container" class="craft-video-grid">
+        <div id="background_stack_two_bowls" class="craft-task-videos">
+          <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/background_generation/stack_two_bowls/stack_bowls_two1.mp4" type="video/mp4"></video><span>Sample 1</span></div>
+          <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/background_generation/stack_two_bowls/stack_bowls_two2.mp4" type="video/mp4"></video><span>Sample 2</span></div>
+        </div>
+        <div id="background_lift_roller" class="craft-task-videos" style="display:none">
+          <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/background_generation/grab_roller/grab_roller1.mp4" type="video/mp4"></video><span>Sample 1</span></div>
+          <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/background_generation/grab_roller/grab_roller2.mp4" type="video/mp4"></video><span>Sample 2</span></div>
+        </div>
+        <div id="background_place_cans_in_plasticbox" class="craft-task-videos" style="display:none">
+          <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/background_generation/place_cans_plasticbox/place_cans_plasticbox1.mp4" type="video/mp4"></video><span>Sample 1</span></div>
+          <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/background_generation/place_cans_plasticbox/place_cans_plasticbox2.mp4" type="video/mp4"></video><span>Sample 2</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Background Generation -->
+
+<!-- Cross-Embodiment Generation -->
+<div class="craft-section craft-scroll-animate craft-augmentation-section" id="crossembodiment-generation">
+  <div class="container is-max-widescreen">
+    <h2 class="craft-section-title">Cross-Embodiment Generation</h2>
+    <p class="craft-augmentation-desc">We enable cross-embodiment transfer by retargeting source robot demonstrations to a target robot using forward and inverse kinematics to map end-effector poses to new joint configurations while preserving gripper actions.</p>
+    <div class="craft-video-tabs">
+      <div class="craft-tab-buttons">
+        <button class="craft-tab-btn is-active" data-task="crossembodiment_stack_two_bowls">Stack Two Bowls</button>
+        <button class="craft-tab-btn" data-task="crossembodiment_lift_roller">Lift Roller</button>
+        <button class="craft-tab-btn" data-task="crossembodiment_place_cans_in_plasticbox">Place Cans In Plasticbox</button>
+      </div>
+      <div id="crossembodiment-container" class="craft-video-grid">
+        <div id="crossembodiment_stack_two_bowls" class="craft-task-videos">
+          <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/crossembodiment/stack_two_bowls/stack_bowls_two1.mp4" type="video/mp4"></video><span>Sample 1</span></div>
+          <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/crossembodiment/stack_two_bowls/stack_bowls_two2.mp4" type="video/mp4"></video><span>Sample 2</span></div>
+        </div>
+        <div id="crossembodiment_lift_roller" class="craft-task-videos" style="display:none">
+          <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/crossembodiment/grab_roller/grab_roller1.mp4" type="video/mp4"></video><span>Sample 1</span></div>
+          <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/crossembodiment/grab_roller/grab_roller2.mp4" type="video/mp4"></video><span>Sample 2</span></div>
+        </div>
+        <div id="crossembodiment_place_cans_in_plasticbox" class="craft-task-videos" style="display:none">
+          <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/crossembodiment/place_cans_in_plasticbox/place_cans_in_plasticbox1.mp4" type="video/mp4"></video><span>Sample 1</span></div>
+          <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/crossembodiment/place_cans_in_plasticbox/place_cans_in_plasticbox2.mp4" type="video/mp4"></video><span>Sample 2</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Cross-Embodiment Generation -->
+
+<!-- Wrist and 3rd Person View Generation -->
+<div class="craft-section craft-scroll-animate craft-augmentation-section" id="wrist-generation">
+  <div class="container is-max-widescreen">
+    <h2 class="craft-section-title">Wrist + 3rd Person View Generation</h2>
+    <p class="craft-augmentation-desc">We tile the left wrist camera, right wrist camera, and third-person (external) camera into a single image. Tiling ensures spatial consistency across all viewpoints—enabling multi-view policy training without collecting real wrist-camera data.</p>
+    <div class="craft-video-tabs">
+      <div class="craft-tab-buttons">
+        <button class="craft-tab-btn is-active" data-task="wrist_stack_two_bowls">Stack Two Bowls</button>
+        <button class="craft-tab-btn" data-task="wrist_lift_roller">Lift Roller</button>
+        <button class="craft-tab-btn" data-task="wrist_place_cans_in_plasticbox">Place Cans In Plasticbox</button>
+      </div>
+      <div id="wrist-container" class="craft-video-grid">
+        <div id="wrist_stack_two_bowls" class="craft-task-videos">
+          <div class="craft-video-card craft-video-single"><video loop autoplay muted playsinline><source src="./static/videos/wrist/stack_two_bowls/stack_two_bowls.mp4" type="video/mp4"></video></div>
+        </div>
+        <div id="wrist_lift_roller" class="craft-task-videos" style="display:none">
+          <div class="craft-video-card craft-video-single"><video loop autoplay muted playsinline><source src="./static/videos/wrist/grab_roller/grab_roller.mp4" type="video/mp4"></video></div>
+        </div>
+        <div id="wrist_place_cans_in_plasticbox" class="craft-task-videos" style="display:none">
+          <div class="craft-video-card craft-video-single"><video loop autoplay muted playsinline><source src="./static/videos/wrist/place_cans_plasticbox/place_cans_plasticbox1.mp4" type="video/mp4"></video></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Stress Testing Video Generation Model -->
+<div class="craft-section craft-scroll-animate craft-section-alt craft-augmentation-section" id="stress-testing">
+  <div class="container is-max-widescreen">
+    <h2 class="craft-section-title">Stress Testing Video Generation Model</h2>
+    <p class="craft-augmentation-desc">Additional stress tests of our video generation: generation beyond the Franka platform, with object distractors, and with different reference images. Click a tab to view each category.</p>
+    <div class="craft-stress-tabs">
+      <div class="craft-tab-buttons">
+        <button class="craft-tab-btn is-active" data-task="stress_beyond_franka">Generation Beyond Franka</button>
+        <button class="craft-tab-btn" data-task="stress_object_distractor">Object Distractor</button>
+        <button class="craft-tab-btn" data-task="stress_different_reference">Different Reference Image</button>
+      </div>
+      <div class="craft-stress-content">
+        <div id="stress_beyond_franka" class="craft-stress-panel">
+          <h3 class="craft-subsection-title">Generation Beyond Franka</h3>
+          <p class="craft-augmentation-desc">Examples of video generation beyond the default Franka setup: different robot arms (e.g. single-arm xArm7), backgrounds, and object appearances, alongside the original generation for comparison.</p>
+          <div class="craft-beyond-franka-grid">
+            <div class="craft-video-card">
+              <video loop autoplay muted playsinline><source src="./static/videos/stress_testing/beyond_franka/background_generation.mp4" type="video/mp4"></video>
+              <p class="craft-video-caption">Single arm xArm7 with ocean background.</p>
+            </div>
+            <div class="craft-video-card">
+              <video loop autoplay muted playsinline><source src="./static/videos/stress_testing/beyond_franka/object_color.mp4" type="video/mp4"></video>
+              <p class="craft-video-caption">Pink generation object.</p>
+            </div>
+            <div class="craft-video-card">
+              <video loop autoplay muted playsinline><source src="./static/videos/stress_testing/beyond_franka/original_generation.mp4" type="video/mp4"></video>
+              <p class="craft-video-caption">Original generation.</p>
+            </div>
+          </div>
+        </div>
+        <div id="stress_object_distractor" class="craft-stress-panel" style="display:none">
+          <h3 class="craft-subsection-title">Object Distractor</h3>
+          <p class="craft-augmentation-desc">Shows how we can generate random objects on the surface.</p>
+          <div class="craft-stress-single-video">
+            <div class="craft-video-card">
+              <video loop autoplay muted playsinline><source src="./static/videos/stress_testing/object_distractor/object_distractor.mp4" type="video/mp4"></video>
+              <span class="craft-stress-caption">Object distractor example</span>
+            </div>
+          </div>
+        </div>
+        <div id="stress_different_reference" class="craft-stress-panel" style="display:none">
+          <h3 class="craft-subsection-title">Different Reference Image</h3>
+          <p class="craft-augmentation-desc">Our reference image can be anything as it doesn’t have to be a black curtain. Below: the reference image given to the model and the generated video.</p>
+          <div class="craft-reference-pair">
+            <div class="craft-reference-item">
+              <img src="./static/videos/stress_testing/different_reference/unnamed.png" alt="Reference image">
+              <span class="craft-stress-caption">Reference image (input to model)</span>
+            </div>
+            <div class="craft-reference-item">
+              <video loop autoplay muted playsinline><source src="./static/videos/stress_testing/different_reference/reference_image_generation.mp4" type="video/mp4"></video>
+              <span class="craft-stress-caption">Generated video</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Abstract (moved to end; above BibTeX) -->
+<section class="craft-section craft-scroll-animate craft-section-alt" id="abstract">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths has-text-justified">
+        <h2 class="craft-section-title">Abstract</h2>
+        <!-- <div class="craft-zero-shot-callout">All video examples on this page are <strong>zero-shot</strong> generations from a pre-trained video diffusion model—no task-specific fine-tuning.</div> -->
+        <div class="craft-info-box">
           <p>
-  Bimanual robot learning from demonstrations is fundamentally limited by the cost and narrow visual diversity of real-world data, which constrains policy robustness across viewpoints, object configurations, and embodiments. We present <span style="text-decoration: underline;">C</span>anny-guided <span style="text-decoration: underline;">R</span>obot D<span style="text-decoration: underline;">a</span>ta Generation using Video Di<span style="text-decoration: underline;">f</span>fusion <span style="text-decoration: underline;">T</span>ransformers (CRAFT), a video diffusion-based framework for scalable bimanual demonstration generation that synthesizes temporally coherent manipulation videos while producing action labels.
-By conditioning video diffusion on edge-based structural cues extracted from simulator-generated trajectories, CRAFT produces physically plausible trajectory variations and supports a unified augmentation pipeline spanning object pose changes, camera viewpoints, lighting and background variations, cross-embodiment transfer, and multi-view synthesis.
-We leverage a pre-trained video diffusion model to convert simulated videos, along with action labels from the simulation trajectories, into action-consistent demonstrations. Starting from only a few real-world demonstrations, CRAFT generates a large, visually diverse set of photorealistic training data, bypassing the need to replay demonstrations on the real robot (Sim2Real).
-Across simulated and real-world bimanual tasks, CRAFT improves success rates over existing augmentation strategies and straightforward data scaling, demonstrating that diffusion-based video generation can substantially expand demonstration diversity and improve generalization for coordinated dual-arm manipulation.
-</p>
+            Bimanual robot learning from demonstrations is fundamentally limited by the cost and narrow visual diversity of real-world data, which constrains policy robustness across viewpoints, object configurations, and embodiments. We present <span class="craft-acronym">C</span>anny-guided <span class="craft-acronym">R</span>obot D<span class="craft-acronym">a</span>ta Generation using Video Di<span class="craft-acronym">f</span>fusion <span class="craft-acronym">T</span>ransformers (CRAFT), a video diffusion-based framework for scalable bimanual demonstration generation that synthesizes temporally coherent manipulation videos while producing action labels.
+            By conditioning video diffusion on edge-based structural cues extracted from simulator-generated trajectories, CRAFT produces physically plausible trajectory variations and supports a unified augmentation pipeline spanning object pose changes, lighting and background variations, cross-embodiment transfer, and multi-view synthesis.
+            We leverage a pre-trained video diffusion model to convert simulated videos, along with action labels from the simulation trajectories, into action-consistent demonstrations. Starting from only a few real-world demonstrations, CRAFT generates a large, visually diverse set of photorealistic training data, bypassing the need to replay demonstrations on the real robot (Sim2Real).
+            Across simulated and real-world bimanual tasks, CRAFT improves success rates over existing augmentation strategies and straightforward data scaling, demonstrating that diffusion-based video generation can substantially expand demonstration diversity and improve generalization for coordinated dual-arm manipulation.
+          </p>
         </div>
       </div>
-    </div>
-  </section>
     </div>
   </div>
 </section>
 
+<section class="craft-section craft-scroll-animate craft-section-alt" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="craft-section-title">BibTeX</h2>
+    <div class="craft-bibtex-box">
+      <pre></pre>
+    </div>
+  </div>
+</section>
 
-<footer class="footer">
+<footer class="footer craft-footer">
   <div class="container">
     <div class="columns is-centered">
-      <div class="column is-8">
-        <div class="content">
-          <p>
-              Website template modified from <a href="https://nerfies.github.io/">NeRFies</a>, <a
-                href="https://huy-ha.github.io/scalingup/">Scaling Up Distilling Down</a>, and <a href="https://umi-on-legs.github.io/">Umi-on-legs</a>.
-            </p>
-        </div>
+      <div class="column is-8 has-text-centered">
+        <p class="craft-footer-credit">
+          This website was adapted from <a href="https://opendrivelab.com/kai0-rl/" target="_blank" rel="noopener noreferrer">RISE (OpenDriveLab)</a>.
+        </p>
       </div>
     </div>
   </div>
 </footer>
+
+<!-- Dismissible draft notice (bottom-right) -->
+<div class="craft-toast-notice" id="craft-toast-notice" role="status" aria-live="polite">
+  <button type="button" class="craft-toast-close" aria-label="Close notice" title="Close">
+    <i class="fas fa-times" aria-hidden="true"></i>
+  </button>
+  <p class="craft-toast-text">This website is not completed and we plan to add more videos. We uploaded a draft so that early reviewers can get a reference to our method. Thank you for spending your time to review our paper. We plan to complete the website by the end of March.</p>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Dismissible toast notice (bottom-right) — always shown on load
+  var toast = document.getElementById('craft-toast-notice');
+  var toastClose = toast && toast.querySelector('.craft-toast-close');
+  if (toastClose && toast) {
+    toastClose.addEventListener('click', function() {
+      toast.classList.add('craft-toast-hidden');
+    });
+  }
+
+  // Scroll-triggered animations
+  var animated = document.querySelectorAll('.craft-scroll-animate');
+  if (animated.length && 'IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('craft-visible');
+        }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
+    animated.forEach(function(el) { observer.observe(el); });
+  } else {
+    animated.forEach(function(el) { el.classList.add('craft-visible'); });
+  }
+
+  // Scroll progress bar
+  var progressBar = document.getElementById('craft-scroll-progress-bar');
+  function updateScrollProgress() {
+    if (!progressBar) return;
+    var scrollTop = window.scrollY || document.documentElement.scrollTop;
+    var scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+    var pct = scrollHeight > 0 ? Math.min(100, (scrollTop / scrollHeight) * 100) : 0;
+    progressBar.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', updateScrollProgress, { passive: true });
+  updateScrollProgress();
+
+  // Navbar: switch to high-contrast style after hero
+  var navbar = document.querySelector('.craft-navbar');
+  var hero = document.getElementById('hero');
+  function updateNavbarStyle() {
+    if (!navbar) return;
+    var y = window.scrollY || document.documentElement.scrollTop || 0;
+    var threshold = hero ? Math.max(80, hero.offsetHeight - 120) : 80;
+    navbar.classList.toggle('craft-navbar-scrolled', y >= threshold);
+  }
+  window.addEventListener('scroll', updateNavbarStyle, { passive: true });
+  window.addEventListener('resize', updateNavbarStyle);
+  updateNavbarStyle();
+
+  // Back to top button: show after scroll, smooth scroll on click
+  var backToTop = document.getElementById('craft-back-to-top');
+  if (backToTop) {
+    function toggleBackToTop() {
+      var y = window.scrollY || document.documentElement.scrollTop;
+      backToTop.classList.toggle('craft-back-to-top-visible', y > 400);
+    }
+    window.addEventListener('scroll', toggleBackToTop, { passive: true });
+    toggleBackToTop();
+    backToTop.addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('hero') && document.getElementById('hero').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+
+  // Tab buttons for Object Pose (and other augmentation sections)
+  document.querySelectorAll('.craft-tab-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      const task = this.dataset.task;
+      const container = this.closest('.craft-video-tabs') || this.closest('.craft-rollout-tabs') || this.closest('.craft-stress-tabs') || this.closest('.craft-results-tabs');
+      if (!container) return;
+      container.querySelectorAll('.craft-tab-btn').forEach(b => b.classList.remove('is-active'));
+      this.classList.add('is-active');
+      if (task.startsWith('rollout_')) {
+        container.querySelectorAll('.craft-rollout-panel').forEach(p => { p.style.display = 'none'; });
+        const target = document.getElementById(task);
+        if (target) target.style.display = 'block';
+      } else if (task.startsWith('stress_')) {
+        container.querySelectorAll('.craft-stress-panel').forEach(p => { p.style.display = 'none'; });
+        const target = document.getElementById(task);
+        if (target) target.style.display = 'block';
+      } else if (task.startsWith('results_')) {
+        container.querySelectorAll('.craft-results-panel').forEach(p => { p.style.display = 'none'; });
+        const target = document.getElementById(task);
+        if (target && window.craftResultsChartConfigs) {
+          target.style.display = 'block';
+          var canvas = target.querySelector('canvas');
+          if (canvas && canvas.id && window.craftResultsChartConfigs[canvas.id]) {
+            try {
+              var ch = typeof Chart !== 'undefined' && Chart.getChart ? Chart.getChart(canvas) : null;
+              if (ch) ch.destroy();
+              new Chart(canvas, window.craftResultsChartConfigs[canvas.id]);
+            } catch (e) {}
+          }
+        }
+      } else {
+        container.querySelectorAll('.craft-task-videos').forEach(v => { v.style.display = 'none'; });
+        const target = document.getElementById(task);
+        if (target) {
+          target.style.display = 'grid';
+          target.style.gap = '1.5rem';
+        }
+      }
+    });
+  });
+
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    animation: {
+      duration: 700
+    },
+    layout: { padding: { top: 20, right: 24, bottom: 16, left: 16 } },
+    plugins: {
+      legend: { position: 'bottom', labels: { padding: 20, boxWidth: 16, font: { size: 12 } } }
+    },
+    elements: {
+      bar: {
+        borderRadius: 12,
+        borderSkipped: false
+      }
+    },
+    scales: {
+      x: {
+        ticks: { maxRotation: 25, minRotation: 25, font: { size: 12 }, padding: 10 },
+        barPercentage: 0.75,
+        categoryPercentage: 0.85
+      },
+      y: {
+        min: 0,
+        max: 100,
+        title: { display: true, text: 'Success Rate (%)', font: { size: 12 } },
+        ticks: { padding: 12, font: { size: 11 } }
+      }
+    }
+  };
+  const labels = ['Lift Roller', 'Place Cans in Plasticbox', 'Stack Two Bowls'];
+  const colors = {
+    act: { bg: 'rgba(100, 116, 139, 0.9)', border: 'rgb(71, 85, 105)' },
+    pose: { bg: 'rgba(245, 158, 11, 0.9)', border: 'rgb(217, 119, 6)' },
+    baseline: { bg: 'rgba(6, 182, 212, 0.9)', border: 'rgb(8, 145, 178)' },
+    craft: { bg: 'rgba(16, 185, 129, 0.95)', border: 'rgb(5, 150, 105)' }
+  };
+
+  function makeDataset(label, data, colorKey) {
+    const c = colors[colorKey];
+    return { label, data, backgroundColor: c.bg, borderColor: c.border, borderWidth: 1 };
+  }
+
+  const crossEmbodimentColors = {
+    collected: { bg: 'rgba(100, 116, 139, 0.9)', border: 'rgb(71, 85, 105)' },
+    shadow: { bg: 'rgba(239, 68, 68, 0.85)', border: 'rgb(185, 28, 28)' },
+    craftTarget: { bg: 'rgba(245, 158, 11, 0.9)', border: 'rgb(217, 119, 6)' },
+    craft: { bg: 'rgba(16, 185, 129, 0.95)', border: 'rgb(5, 150, 105)' }
+  };
+  function makeCrossEmbDataset(label, data, colorKey) {
+    const c = crossEmbodimentColors[colorKey];
+    return { label, data, backgroundColor: c.bg, borderColor: c.border, borderWidth: 1 };
+  }
+
+  window.craftResultsChartConfigs = {
+    'chart-lighting': {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [
+          makeDataset('ACT w/o Aug', [15, 5, 0], 'act'),
+          makeDataset('CRAFT Pose-Only', [25, 15, 10], 'pose'),
+          makeDataset('ACT w/ Baseline', [65, 45, 40], 'baseline'),
+          makeDataset('CRAFT (Ours)', [85, 70, 60], 'craft')
+        ]
+      },
+      options: chartOptions
+    },
+    'chart-background': {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [
+          makeDataset('ACT w/o Aug', [20, 0, 0], 'act'),
+          makeDataset('CRAFT Pose-Only', [35, 10, 15], 'pose'),
+          makeDataset('ACT w/ Baseline', [20, 25, 30], 'baseline'),
+          makeDataset('CRAFT (Ours)', [90, 75, 50], 'craft')
+        ]
+      },
+      options: chartOptions
+    },
+    'chart-camera': {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [
+          makeDataset('ACT w/o Aug', [30, 15, 10], 'act'),
+          makeDataset('CRAFT Pose-Only', [65, 25, 35], 'pose'),
+          makeDataset('ACT w/ Baseline', [70, 40, 30], 'baseline'),
+          makeDataset('CRAFT (Ours)', [95, 90, 90], 'craft')
+        ]
+      },
+      options: chartOptions
+    },
+    'chart-object-color': {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [
+          makeDataset('ACT w/o Aug', [10, 0, 5], 'act'),
+          makeDataset('CRAFT Pose-Only', [25, 10, 15], 'pose'),
+          makeDataset('ACT w/ Baseline', [75, 45, 55], 'baseline'),
+          makeDataset('CRAFT (Ours)', [90, 90, 85], 'craft')
+        ]
+      },
+      options: chartOptions
+    },
+    'chart-wrist': {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [
+          makeDataset('ACT w/o Aug', [65, 40, 50], 'act'),
+          makeDataset('CRAFT Pose-Only', [75, 55, 65], 'pose'),
+          makeDataset('CRAFT (Ours)', [100, 95, 100], 'craft')
+        ]
+      },
+      options: chartOptions
+    },
+    'chart-crossembodiment': {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [
+          makeCrossEmbDataset('Collected Target', [25, 10, 15], 'collected'),
+          makeCrossEmbDataset('Shadow [10]', [10, 5, 5], 'shadow'),
+          makeCrossEmbDataset('CRAFT (Target)', [20, 5, 10], 'craftTarget'),
+          makeCrossEmbDataset('CRAFT (Ours)', [85, 75, 80], 'craft')
+        ]
+      },
+      options: chartOptions
+    }
+  };
+
+  var lightingCanvas = document.getElementById('chart-lighting');
+  if (lightingCanvas && window.craftResultsChartConfigs['chart-lighting']) {
+    new Chart(lightingCanvas, window.craftResultsChartConfigs['chart-lighting']);
+  }
+});
+</script>
 
 </body>
 

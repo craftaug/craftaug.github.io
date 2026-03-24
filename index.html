@@ -29,7 +29,10 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
 
-  <script src="https://kit.fontawesome.com/19914a84eb.js" crossorigin="anonymous"></script>
+  <!-- Font Awesome via CDN (Kit can fail: domain allowlist, blockers, expired token). -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="./static/js/bulma-carousel.min.js"></script>
@@ -72,7 +75,7 @@
       <a href="#abstract">Overview</a>
       <a href="#umi">Method</a>
       <a href="#results">Results</a>
-      <a href="#real-world-rollouts" class="craft-nav-hidden">Real-World Rollouts</a>
+      <a href="#real-world-rollouts">Real-World Rollouts</a>
       <a href="#object-pose-generation">Object Pose</a>
       <a href="#lighting-generation">Lighting</a>
       <a href="#object-color-generation">Object Color</a>
@@ -87,7 +90,7 @@
   <div class="hero-craft-body">
     <div class="hero-craft-content">
       <h1 class="craft-title craft-title-gradient">CRAFT: Video Diffusion for Bimanual Robot Data Generation</h1>
-      <p class="craft-zero-shot-badge">This website is not completed and we plan to add more videos. We uploaded a <strong>VERY ROUGH</strong> draft so that early reviewers can get a reference to our method. Thank you for spending your time to review our paper. We plan to complete the website by the end of March.</p>
+      <!-- <p class="craft-zero-shot-badge">This website is not completed and we plan to add more videos. We uploaded a <strong>VERY ROUGH</strong> draft so that early reviewers can get a reference to our method. Thank you for spending your time to review our paper. We plan to complete the website by the end of March.</p> -->
       <div class="craft-authors">
         <p class="craft-authors-list">Anonymous Authors</p>
         <p class="craft-affiliations">IROS 2026</p>
@@ -322,29 +325,13 @@
       <details class="craft-prompt-dropdown">
         <summary><span class="craft-prompt-summary-text">Language instruction used for this generation</span><span class="craft-prompt-chevron" aria-hidden="true"></span></summary>
         <div class="craft-prompt-inner">
-          <pre class="craft-prompt-text"><code>Overhead shot with balanced, even lighting. Neutral background with clear
-illumination across the task area. COMPLETELY STATIONARY background curtains and table - absolutely
-no movement, no swaying, no wind, frozen and still like a photograph throughout the entire
-video. The background fabric and table fabric remains perfectly static while only the robot arms move.
-
-Two white industrial robotic arms with visible structural detail are positioned symmetrically.
-Two light-colored shallow gray bowls are clearly visible on the dark fabric
-surface with defined edges.
-
-CRITICAL: The robotic grippers make firm, realistic contact with the bowl edges. Fingers
-wrap securely around the bowl rims with no gaps or floating. Natural grasping mechanics
-with proper finger placement and stable grip throughout the entire motion. Physical contact
-remains consistent with no slipping or separation between gripper and bowl surfaces.
-
-The scene has well-balanced lighting that clearly shows all objects - robot arms, bowls,
-and surface - with good detail and natural contrast. No harsh shadows or overexposed areas.
-Clean, professional appearance with sufficient light to see all action clearly. Sharp focus
-on the manipulation task.
-
-ONLY the robot arms and bowls move - all background elements including curtains, fabric,
-and surfaces remain completely frozen and motionless throughout the entire sequence.
-
-4K quality.</code></pre>
+          <div class="craft-prompt-text">
+            <p>Overhead shot with balanced, even lighting. Neutral background with clear illumination across the task area. Background curtains and the table are completely stationary—no movement, swaying, or wind; they stay frozen like a photograph for the whole video. The background and table fabrics remain perfectly static while only the robot arms move.</p>
+            <p>Two white industrial robotic arms with visible structural detail are positioned symmetrically. Two light-colored shallow gray bowls are clearly visible on the dark fabric surface with defined edges.</p>
+            <p><strong>Critical:</strong> The robotic grippers make firm, realistic contact with the bowl edges. Fingers wrap securely around the bowl rims with no gaps or floating. Use natural grasping mechanics with proper finger placement and a stable grip through the full motion. Physical contact stays consistent with no slipping or separation between gripper and bowl.</p>
+            <p>The scene has well-balanced lighting so robot arms, bowls, and surface read clearly, with natural contrast. Avoid harsh shadows or blown highlights. Aim for a clean, professional look with enough light to follow the action, sharp focus on the manipulation task.</p>
+            <p>Only the robot arms and bowls move—curtains, fabric, and other background elements stay motionless for the entire sequence. 4K quality.</p>
+          </div>
         </div>
       </details>
     </div>
@@ -491,56 +478,62 @@ and surfaces remain completely frozen and motionless throughout the entire seque
     <p class="craft-augmentation-desc">Policy rollouts on physical hardware for each augmentation type. Policies are trained with CRAFT-generated data and evaluated under the corresponding test condition.</p>
     <div class="craft-rollout-tabs">
       <div class="craft-tab-buttons">
-        <button class="craft-tab-btn is-active" data-task="rollout_object_pose">Object Pose</button>
-        <button class="craft-tab-btn" data-task="rollout_lighting">Lighting</button>
+        <button class="craft-tab-btn is-active" data-task="rollout_lighting">Lighting</button>
         <button class="craft-tab-btn" data-task="rollout_object_color">Object Color</button>
         <button class="craft-tab-btn" data-task="rollout_background">Background</button>
         <button class="craft-tab-btn" data-task="rollout_crossembodiment">Cross-Embodiment</button>
         <button class="craft-tab-btn" data-task="rollout_wrist">Wrist + 3rd Person</button>
+        <button class="craft-tab-btn" data-task="rollout_camera_view">Camera View</button>
       </div>
       <div class="craft-rollout-content">
-        <div id="rollout_object_pose" class="craft-rollout-panel">
-          <h4>Object Pose — Unseen object positions</h4>
+        <div id="rollout_lighting" class="craft-rollout-panel">
           <div class="craft-rollout-videos">
-            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/teaser_v1_compressed.mp4" type="video/mp4"></video><span>Lift Roller</span></div>
-            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/teaser_v1_compressed.mp4" type="video/mp4"></video><span>Place Cans</span></div>
-            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/teaser_v1_compressed.mp4" type="video/mp4"></video><span>Stack Bowls</span></div>
-          </div>
-        </div>
-        <div id="rollout_lighting" class="craft-rollout-panel" style="display:none">
-          <h4>Lighting — Unseen ambient illumination</h4>
-          <div class="craft-rollout-videos">
-            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/teaser_v1_compressed.mp4" type="video/mp4"></video><span>Blue lighting</span></div>
-            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/teaser_v1_compressed.mp4" type="video/mp4"></video><span>Green lighting</span></div>
+            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/rollouts/lighting/stack_two_bowls.mp4" type="video/mp4"></video><span>Stack Two Bowls</span></div>
+            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/rollouts/lighting/lift_roller.mp4" type="video/mp4"></video><span>Lift Roller</span></div>
+            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/rollouts/lighting/place_cans_plasticbox.mp4" type="video/mp4"></video><span>Place Cans In Plasticbox</span></div>
           </div>
         </div>
         <div id="rollout_object_color" class="craft-rollout-panel" style="display:none">
-          <h4>Object Color — Unseen object colors (trained on red, tested on gray)</h4>
           <div class="craft-rollout-videos">
-            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/teaser_v1_compressed.mp4" type="video/mp4"></video><span>Placeholder</span></div>
+            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/rollouts/object_color/stack_two_bowls.mp4" type="video/mp4"></video><span>Stack Two Bowls</span></div>
+            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/rollouts/object_color/lift_roller.mp4" type="video/mp4"></video><span>Lift Roller</span></div>
+            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/rollouts/object_color/place_cans_plasticbox.mp4" type="video/mp4"></video><span>Place Cans In Plasticbox</span></div>
           </div>
         </div>
         <div id="rollout_background" class="craft-rollout-panel" style="display:none">
-          <h4>Background — Unseen background scenes</h4>
           <div class="craft-rollout-videos">
-            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/teaser_v1_compressed.mp4" type="video/mp4"></video><span>Placeholder</span></div>
+            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/rollouts/background/stack_two_bowls.mp4" type="video/mp4"></video><span>Stack Two Bowls</span></div>
+            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/rollouts/background/lift_roller.mp4" type="video/mp4"></video><span>Lift Roller</span></div>
+            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/rollouts/background/place_cans_plasticbox.mp4" type="video/mp4"></video><span>Place Cans In Plasticbox</span></div>
           </div>
         </div>
         <div id="rollout_crossembodiment" class="craft-rollout-panel" style="display:none">
           <h4>Cross-Embodiment — xArm7 demos transferred to Franka</h4>
           <div class="craft-rollout-videos">
-            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/teaser_v1_compressed.mp4" type="video/mp4"></video><span>Placeholder</span></div>
+            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/rollouts/crossembodiment/stack_two_bowls.mp4" type="video/mp4"></video><span>Stack Two Bowls</span></div>
+            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/rollouts/crossembodiment/lift_roller.mp4" type="video/mp4"></video><span>Lift Roller</span></div>
+            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/rollouts/crossembodiment/place_cans_plasticbox.mp4" type="video/mp4"></video><span>Place Cans In Plasticbox</span></div>
           </div>
         </div>
         <div id="rollout_wrist" class="craft-rollout-panel" style="display:none">
           <h4>Wrist + 3rd Person — Multi-view policy execution</h4>
           <div class="craft-rollout-videos">
-            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/teaser_v1_compressed.mp4" type="video/mp4"></video><span>Placeholder</span></div>
+            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/rollouts/wrist/stack_two_bowls.mp4" type="video/mp4"></video><span>Stack Two Bowls</span></div>
+            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/rollouts/wrist/lift_roller.mp4" type="video/mp4"></video><span>Lift Roller</span></div>
+            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/rollouts/wrist/place_cans_plasticbox.mp4" type="video/mp4"></video><span>Place Cans In Plasticbox</span></div>
+          </div>
+        </div>
+        <div id="rollout_camera_view" class="craft-rollout-panel" style="display:none">
+          <h4>Camera View — Alternate camera viewpoints</h4>
+          <div class="craft-rollout-videos">
+            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/rollouts/camera/stack_two_bowls.mp4" type="video/mp4"></video><span>Stack Two Bowls</span></div>
+            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/rollouts/camera/lift_roller.mp4" type="video/mp4"></video><span>Lift Roller</span></div>
+            <div class="craft-video-card"><video loop autoplay muted playsinline><source src="./static/videos/rollouts/camera/place_cans_plasticbox.mp4" type="video/mp4"></video><span>Place Cans In Plasticbox</span></div>
           </div>
         </div>
       </div>
     </div>
-    <p class="craft-rollout-note">Currently showing teaser as placeholder. Add your real-world rollout videos to <code>static/videos/rollouts/&lt;augmentation_type&gt;/</code> and update the source paths above.</p>
+    <p class="craft-rollout-note">Rollouts shown for three tasks (Stack Two Bowls, Lift Roller, Place Cans In Plasticbox) under each real-world augmentation setting.</p>
   </div>
 </section>
 
@@ -821,12 +814,12 @@ and surfaces remain completely frozen and motionless throughout the entire seque
 </footer>
 
 <!-- Dismissible draft notice (bottom-right) -->
-<div class="craft-toast-notice" id="craft-toast-notice" role="status" aria-live="polite">
+<!-- <div class="craft-toast-notice" id="craft-toast-notice" role="status" aria-live="polite">
   <button type="button" class="craft-toast-close" aria-label="Close notice" title="Close">
     <i class="fas fa-times" aria-hidden="true"></i>
   </button>
   <p class="craft-toast-text">This website is not completed and we plan to add more videos. We uploaded a <strong>VERY ROUGH</strong> draft so that early reviewers can get a reference to our method. Thank you for spending your time to review our paper. We plan to complete the website by the end of March.</p>
-</div>
+</div> -->
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {

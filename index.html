@@ -848,6 +848,41 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+  // iOS/Safari: muted + inline playback must be set reliably for autoplay.
+  document.querySelectorAll('video').forEach(function(v) {
+    v.muted = true;
+    v.defaultMuted = true;
+    v.playsInline = true;
+    v.setAttribute('playsinline', '');
+    v.setAttribute('webkit-playsinline', '');
+  });
+
+  function craftVideoIsInHiddenAncestor(el) {
+    var n = el;
+    while (n && n !== document.body) {
+      try {
+        var st = window.getComputedStyle(n);
+        if (st.display === 'none' || st.visibility === 'hidden') return true;
+      } catch (e) {}
+      n = n.parentElement;
+    }
+    return false;
+  }
+
+  function craftNudgeVideosPlayIn(container) {
+    if (!container) return;
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        container.querySelectorAll('video').forEach(function(v) {
+          v.muted = true;
+          v.playsInline = true;
+          var p = v.play();
+          if (p && typeof p.catch === 'function') p.catch(function() {});
+        });
+      });
+    });
+  }
+
   // Dismissible video / media load status (bottom-left)
   (function initCraftVideoLoadToast() {
     var AUTO_CLOSE_MS = 10000;
@@ -982,6 +1017,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var loaded = 0;
     var failed = 0;
+    var TOAST_STALL_MS = 45000;
 
     function tick() {
       var finalized = loaded + failed >= total;
@@ -995,29 +1031,42 @@ document.addEventListener('DOMContentLoaded', function() {
     statusEl.textContent = 'Loading ' + total + ' clip' + (total === 1 ? '' : 's') + '…';
     setProgress(0, total, 0);
 
-    videos.forEach(function(v) {
-      var finished = false;
+    var doneFlags = videos.map(function() { return false; });
+    function finishOne(i, ok) {
+      if (doneFlags[i]) return;
+      doneFlags[i] = true;
+      if (ok) loaded++; else failed++;
+      tick();
+    }
+
+    videos.forEach(function(v, i) {
       function finish(ok) {
-        if (finished) return;
-        finished = true;
-        if (ok) loaded++; else failed++;
-        tick();
+        finishOne(i, ok);
       }
       if (v.error) {
         finish(false);
         return;
       }
-      if (v.readyState >= 3) {
+      // HAVE_METADATA (1) is enough for the bar; hidden-tab clips on mobile often never reach canplay.
+      if (v.readyState >= 1) {
         finish(true);
         return;
       }
       var onReady = function() { finish(true); };
+      v.addEventListener('loadedmetadata', onReady, { once: true });
       v.addEventListener('canplay', onReady, { once: true });
       v.addEventListener('loadeddata', onReady, { once: true });
       v.addEventListener('error', function() { finish(false); }, { once: true });
     });
 
     tick();
+
+    setTimeout(function() {
+      videos.forEach(function(v, i) {
+        if (doneFlags[i]) return;
+        finishOne(i, !v.error);
+      });
+    }, TOAST_STALL_MS);
   })();
 
   // Scroll-triggered animations
@@ -1085,7 +1134,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Below-hero videos: pause when off-screen (many <video> autoplay = heavy decode/GPU on fast scroll)
+  // Below-hero videos: pause when off-screen. Do not pause clips inside display:none tabs — that
+  // blocks loading on iOS and leaves the load toast stuck.
   (function setupViewportBoundVideos() {
     if (!('IntersectionObserver' in window)) return;
     var videos = document.querySelectorAll('video');
@@ -1096,7 +1146,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (entry.isIntersecting && v.hasAttribute('autoplay')) {
           var p = v.play();
           if (p && typeof p.catch === 'function') p.catch(function() {});
-        } else {
+        } else if (!craftVideoIsInHiddenAncestor(v)) {
           v.pause();
         }
       });
@@ -1105,7 +1155,9 @@ document.addEventListener('DOMContentLoaded', function() {
       if (hero && hero.contains(v)) {
         return;
       }
-      v.pause();
+      if (!craftVideoIsInHiddenAncestor(v)) {
+        v.pause();
+      }
       io.observe(v);
     });
   })();
@@ -1121,11 +1173,17 @@ document.addEventListener('DOMContentLoaded', function() {
       if (task.startsWith('rollout_')) {
         container.querySelectorAll('.craft-rollout-panel').forEach(p => { p.style.display = 'none'; });
         const target = document.getElementById(task);
-        if (target) target.style.display = 'block';
+        if (target) {
+          target.style.display = 'block';
+          craftNudgeVideosPlayIn(target);
+        }
       } else if (task.startsWith('stress_')) {
         container.querySelectorAll('.craft-stress-panel').forEach(p => { p.style.display = 'none'; });
         const target = document.getElementById(task);
-        if (target) target.style.display = 'block';
+        if (target) {
+          target.style.display = 'block';
+          craftNudgeVideosPlayIn(target);
+        }
       } else if (task.startsWith('results_')) {
         container.querySelectorAll('.craft-results-panel').forEach(p => { p.style.display = 'none'; });
         const target = document.getElementById(task);
@@ -1139,6 +1197,7 @@ document.addEventListener('DOMContentLoaded', function() {
               new Chart(canvas, window.craftResultsChartConfigs[canvas.id]);
             } catch (e) {}
           }
+          craftNudgeVideosPlayIn(target);
         }
       } else {
         container.querySelectorAll('.craft-task-videos').forEach(v => { v.style.display = 'none'; });
@@ -1146,6 +1205,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (target) {
           target.style.display = 'grid';
           target.style.gap = '1.5rem';
+          craftNudgeVideosPlayIn(target);
         }
       }
     });

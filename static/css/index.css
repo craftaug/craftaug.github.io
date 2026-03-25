@@ -707,13 +707,9 @@ body {
 }
 
 @media (max-width: 768px) {
+  /* Full link row is unusable on small phones; hero still works without top chrome. */
   .craft-navbar {
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1rem;
-  }
-  .craft-navbar-links {
-    justify-content: center;
+    display: none !important;
   }
   .craft-title {
     font-size: 1.5rem;

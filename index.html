@@ -67,8 +67,8 @@
   <header class="craft-navbar">
     <div class="craft-navbar-brand">
       <a href="#hero" class="craft-logo">
-        <span class="craft-logo-icon">⛏️</span>
         <span class="craft-logo-text">CRAFT</span>
+        <span class="craft-logo-dot"></span>
       </a>
     </div>
     <nav class="craft-navbar-links">
@@ -76,13 +76,21 @@
       <a href="#umi">Method</a>
       <a href="#results">Results</a>
       <a href="#real-world-rollouts">Real-World Rollouts</a>
-      <a href="#object-pose-generation">Object Pose</a>
-      <a href="#lighting-generation">Lighting</a>
-      <a href="#object-color-generation">Object Color</a>
-      <a href="#background-generation">Background</a>
-      <a href="#crossembodiment-generation">Cross-Embodiment</a>
-      <a href="#wrist-generation">Wrist + 3rd Person</a>
-      <a href="#stress-testing">Stress Testing</a>
+      <div class="craft-nav-dropdown">
+        <button type="button" class="craft-nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+          Generations
+          <i class="fas fa-chevron-down craft-nav-caret" aria-hidden="true"></i>
+        </button>
+        <div class="craft-nav-dropdown-menu" role="menu">
+          <a href="#object-pose-generation" role="menuitem">Object Pose</a>
+          <a href="#lighting-generation" role="menuitem">Lighting</a>
+          <a href="#object-color-generation" role="menuitem">Object Color</a>
+          <a href="#background-generation" role="menuitem">Background</a>
+          <a href="#crossembodiment-generation" role="menuitem">Cross-Embodiment</a>
+          <a href="#wrist-generation" role="menuitem">Wrist + 3rd Person</a>
+          <a href="#stress-testing" role="menuitem">Stress Testing</a>
+        </div>
+      </div>
     </nav>
   </header>
 
@@ -91,27 +99,29 @@
     <div class="hero-craft-content">
       <h1 class="craft-title craft-title-gradient">CRAFT: Video Diffusion for Bimanual Robot Data Generation</h1>
       <!-- <p class="craft-zero-shot-badge">This website is not completed and we plan to add more videos. We uploaded a <strong>VERY ROUGH</strong> draft so that early reviewers can get a reference to our method. Thank you for spending your time to review our paper. We plan to complete the website by the end of March.</p> -->
+      <p class="craft-venue">International Conference on Intelligent Robots and Systems (IROS)</p>
       <div class="craft-authors">
-        <p class="craft-authors-list">Anonymous Authors</p>
-        <p class="craft-affiliations">IROS 2026</p>
+        <p class="craft-authors-list">
+          <a href="https://jasoonchen.com/" target="_blank" rel="noopener noreferrer">Jason Chen</a>,
+          <a href="https://arthurliu.com/" target="_blank" rel="noopener noreferrer">I-Chun Arthur Liu</a>,
+          <a href="https://uscresl.org/principal-investigator/" target="_blank" rel="noopener noreferrer">Gaurav Sukhatme</a>,
+          <a href="https://danielseita.github.io/" target="_blank" rel="noopener noreferrer">Daniel Seita</a>
+        </p>
+        <p class="craft-affiliations">University of Southern California</p>
       </div>
-      <div class="craft-buttons craft-buttons-hidden">
-        <a href="https://arxiv.org/abs/2407.10353" class="craft-btn craft-btn-arxiv">
+      <div class="craft-buttons">
+        <a href="https://arxiv.org/abs/2604.03552" class="craft-btn craft-btn-arxiv">
           <img src="./static/images/arxiv.svg" alt="arXiv" class="craft-btn-icon">
           <span>arXiv</span>
         </a>
-        <a href="./static/umi-on-legs.pdf" class="craft-btn craft-btn-paper">
+        <a href="https://arxiv.org/pdf/2604.03552" class="craft-btn craft-btn-paper">
           <img src="./static/images/pdf.svg" alt="Paper" class="craft-btn-icon">
           <span>Paper</span>
         </a>
-        <a href="https://youtu.be/4Bp0q3xHTxE" class="craft-btn craft-btn-video">
-          <img src="./static/images/youtube.svg" alt="Video" class="craft-btn-icon">
-          <span>Video</span>
-        </a>
-        <a href="https://github.com/craftaug" class="craft-btn craft-btn-code">
+        <span class="craft-btn craft-btn-code craft-btn-disabled">
           <i class="fab fa-github craft-btn-icon"></i>
-          <span>Code</span>
-        </a>
+          <span>Code (Coming Soon)</span>
+        </span>
       </div>
       <a href="#method-carousel" class="craft-scroll-indicator">
         <span>SCROLL</span>
@@ -796,7 +806,12 @@
   <div class="container is-max-desktop content">
     <h2 class="craft-section-title">BibTeX</h2>
     <div class="craft-bibtex-box">
-      <pre></pre>
+      <pre>@inproceedings{chen2026craft,
+  title={{CRAFT: Video Diffusion for Bimanual Robot Data Generation}},
+  author={Jason Chen and I-Chun Arthur Liu and Gaurav Sukhatme and Daniel Seita},
+  booktitle={International Conference on Intelligent Robots and Systems (IROS)},
+  Year={2026}
+}</pre>
     </div>
   </div>
 </section>

@@ -72,7 +72,7 @@
       </a>
     </div>
     <nav class="craft-navbar-links">
-      <a href="#abstract">Overview</a>
+      <a href="#overview">Overview</a>
       <a href="#umi">Method</a>
       <a href="#results">Results</a>
       <a href="#real-world-rollouts">Real-World Rollouts</a>
@@ -110,11 +110,11 @@
         <p class="craft-affiliations">University of Southern California</p>
       </div>
       <div class="craft-buttons">
-        <a href="https://arxiv.org/abs/2604.03552" class="craft-btn craft-btn-arxiv">
+        <a href="https://arxiv.org/abs/2604.03552" class="craft-btn craft-btn-arxiv" target="_blank" rel="noopener noreferrer">
           <img src="./static/images/arxiv.svg" alt="arXiv" class="craft-btn-icon">
           <span>arXiv</span>
         </a>
-        <a href="https://arxiv.org/pdf/2604.03552" class="craft-btn craft-btn-paper">
+        <a href="https://arxiv.org/pdf/2604.03552" class="craft-btn craft-btn-paper" target="_blank" rel="noopener noreferrer">
           <img src="./static/images/pdf.svg" alt="Paper" class="craft-btn-icon">
           <span>Paper</span>
         </a>
@@ -250,27 +250,32 @@
     </div>
   </div>
 
-  <!-- Key contributions (moved up from Abstract) -->
-  <div class="container is-max-desktop craft-contributions-container">
-    <h3 class="craft-subsection-title">Key Contributions</h3>
-    <div class="craft-contributions craft-stagger-children">
-      <div class="craft-contribution-card">
-        <div class="craft-contribution-icon"><i class="fas fa-project-diagram"></i></div>
-        <h4>Canny-Edge Conditioning</h4>
-        <p>A novel method utilizing Canny edge images as control input to condition video generative models, producing high-quality and diverse robot videos.</p>
-      </div>
-      <div class="craft-contribution-card">
-        <div class="craft-contribution-icon"><i class="fas fa-robot"></i></div>
-        <h4>Unified Bimanual Pipeline</h4>
-        <p>A new pipeline for bimanual cross-embodiment manipulation that performs six types of image augmentations in a single framework.</p>
-      </div>
-      <div class="craft-contribution-card">
-        <div class="craft-contribution-icon"><i class="fas fa-chart-line"></i></div>
-        <h4>Strong Empirical Results</h4>
-        <p>Simulation and real-world experiments demonstrating that policies trained on CRAFT-generated data significantly outperform baselines.</p>
+  <!-- TL;DR / Overview (inside the Method Videos area) -->
+  <div class="container is-max-desktop craft-tldr-container" id="overview">
+    <div class="craft-tldr-card">
+      <span class="craft-tldr-badge">TL;DR</span>
+      <p class="craft-tldr-lead">
+        <strong>CRAFT</strong> turns just a couple of real robot demonstrations into a large, visually diverse training set by generating photorealistic robot videos with a video diffusion model.
+      </p>
+      <div class="craft-tldr-points">
+        <div class="craft-tldr-point">
+          <div class="craft-tldr-point-icon craft-tldr-point-icon-problem"><i class="fas fa-exclamation"></i></div>
+          <div>
+            <h4>The problem</h4>
+            <p>Real robot data is expensive to collect and lacks visual variation, so policies struggle under new lighting, backgrounds, object positions, or camera views.</p>
+          </div>
+        </div>
+        <div class="craft-tldr-point">
+          <div class="craft-tldr-point-icon craft-tldr-point-icon-idea"><i class="fas fa-lightbulb"></i></div>
+          <div>
+            <h4>The idea</h4>
+            <p>Guide a video diffusion model with canny-edges from simulation to synthesize new, action-labeled demonstrations across six augmentation axes.</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+
 </section>
 
 <!-- Method -->
@@ -327,7 +332,7 @@
       </div>
     </div>
     <div class="craft-video-demo">
-      <h4>Stack Two Bowls — Canny-edge conditioned generation</h4>
+      <h4>Stack Two Bowls: Canny-edge conditioned generation</h4>
       <video autoplay muted loop playsinline preload="metadata">
         <source src="./static/videos/why_canny/stack_two_bowls.mp4" type="video/mp4">
       </video>
@@ -336,11 +341,11 @@
         <summary><span class="craft-prompt-summary-text">Language instruction used for this generation</span><span class="craft-prompt-chevron" aria-hidden="true"></span></summary>
         <div class="craft-prompt-inner">
           <div class="craft-prompt-text">
-            <p>Overhead shot with balanced, even lighting. Neutral background with clear illumination across the task area. Background curtains and the table are completely stationary—no movement, swaying, or wind; they stay frozen like a photograph for the whole video. The background and table fabrics remain perfectly static while only the robot arms move.</p>
+            <p>Overhead shot with balanced, even lighting. Neutral background with clear illumination across the task area. Background curtains and the table are completely stationary, no movement, swaying, or wind; they stay frozen like a photograph for the whole video. The background and table fabrics remain perfectly static while only the robot arms move.</p>
             <p>Two white industrial robotic arms with visible structural detail are positioned symmetrically. Two light-colored shallow gray bowls are clearly visible on the dark fabric surface with defined edges.</p>
             <p><strong>Critical:</strong> The robotic grippers make firm, realistic contact with the bowl edges. Fingers wrap securely around the bowl rims with no gaps or floating. Use natural grasping mechanics with proper finger placement and a stable grip through the full motion. Physical contact stays consistent with no slipping or separation between gripper and bowl.</p>
             <p>The scene has well-balanced lighting so robot arms, bowls, and surface read clearly, with natural contrast. Avoid harsh shadows or blown highlights. Aim for a clean, professional look with enough light to follow the action, sharp focus on the manipulation task.</p>
-            <p>Only the robot arms and bowls move—curtains, fabric, and other background elements stay motionless for the entire sequence. 4K quality.</p>
+            <p>Only the robot arms and bowls move, curtains, fabric, and other background elements stay motionless for the entire sequence. 4K quality.</p>
           </div>
         </div>
       </details>
@@ -518,7 +523,7 @@
           </div>
         </div>
         <div id="rollout_crossembodiment" class="craft-rollout-panel" style="display:none">
-          <h4>Cross-Embodiment — xArm7 demos transferred to Franka</h4>
+          <h4>Cross-Embodiment: xArm7 demos transferred to Franka</h4>
           <div class="craft-rollout-videos">
             <div class="craft-video-card"><video loop autoplay muted playsinline preload="metadata"><source src="./static/videos/rollouts/crossembodiment/stack_two_bowls.mp4" type="video/mp4"></video><span>Stack Two Bowls</span></div>
             <div class="craft-video-card"><video loop autoplay muted playsinline preload="metadata"><source src="./static/videos/rollouts/crossembodiment/lift_roller.mp4" type="video/mp4"></video><span>Lift Roller</span></div>
@@ -526,7 +531,7 @@
           </div>
         </div>
         <div id="rollout_wrist" class="craft-rollout-panel" style="display:none">
-          <h4>Wrist + 3rd Person — Multi-view policy execution</h4>
+          <h4>Wrist + 3rd Person: Multi-view policy execution</h4>
           <div class="craft-rollout-videos">
             <div class="craft-video-card"><video loop autoplay muted playsinline preload="metadata"><source src="./static/videos/rollouts/wrist/stack_two_bowls.mp4" type="video/mp4"></video><span>Stack Two Bowls</span></div>
             <div class="craft-video-card"><video loop autoplay muted playsinline preload="metadata"><source src="./static/videos/rollouts/wrist/lift_roller.mp4" type="video/mp4"></video><span>Lift Roller</span></div>
@@ -534,7 +539,7 @@
           </div>
         </div>
         <div id="rollout_camera_view" class="craft-rollout-panel" style="display:none">
-          <h4>Camera View — Alternate camera viewpoints</h4>
+          <h4>Camera View: Alternate camera viewpoints</h4>
           <div class="craft-rollout-videos">
             <div class="craft-video-card"><video loop autoplay muted playsinline preload="metadata"><source src="./static/videos/rollouts/camera/stack_two_bowls.mp4" type="video/mp4"></video><span>Stack Two Bowls</span></div>
             <div class="craft-video-card"><video loop autoplay muted playsinline preload="metadata"><source src="./static/videos/rollouts/camera/lift_roller.mp4" type="video/mp4"></video><span>Lift Roller</span></div>
@@ -641,7 +646,7 @@
 <div class="craft-section craft-scroll-animate craft-section-alt craft-augmentation-section" id="background-generation">
   <div class="container is-max-widescreen">
     <h2 class="craft-section-title">Background Generation</h2>
-    <p class="craft-augmentation-desc">To generate diverse backgrounds, we omit the reference image from the video diffusion model—conditioning on it would anchor the generated scene to the original environment. Instead, we modify the language instruction to describe the desired background.</p>
+    <p class="craft-augmentation-desc">To generate diverse backgrounds, we omit the reference image from the video diffusion model, conditioning on it would anchor the generated scene to the original environment. Instead, we modify the language instruction to describe the desired background.</p>
     <div class="craft-video-tabs">
       <div class="craft-tab-buttons">
         <button class="craft-tab-btn is-active" data-task="background_stack_two_bowls">Stack Two Bowls</button>
@@ -701,7 +706,7 @@
 <div class="craft-section craft-scroll-animate craft-augmentation-section" id="wrist-generation">
   <div class="container is-max-widescreen">
     <h2 class="craft-section-title">Wrist + 3rd Person View Generation</h2>
-    <p class="craft-augmentation-desc">We tile the left wrist camera, right wrist camera, and third-person (external) camera into a single image. Tiling ensures spatial consistency across all viewpoints—enabling multi-view policy training without collecting real wrist-camera data.</p>
+    <p class="craft-augmentation-desc">We tile the left wrist camera, right wrist camera, and third-person (external) camera into a single image. Tiling ensures spatial consistency across all viewpoints, enabling multi-view policy training without collecting real wrist-camera data.</p>
     <div class="craft-video-tabs">
       <div class="craft-tab-buttons">
         <button class="craft-tab-btn is-active" data-task="wrist_stack_two_bowls">Stack Two Bowls</button>
@@ -782,31 +787,15 @@
   </div>
 </div>
 
-<!-- Abstract (moved to end; above BibTeX) -->
-<section class="craft-section craft-scroll-animate craft-section-alt" id="abstract">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered">
-      <div class="column is-four-fifths has-text-justified">
-        <h2 class="craft-section-title">Abstract</h2>
-        <!-- <div class="craft-zero-shot-callout">All video examples on this page are <strong>zero-shot</strong> generations from a pre-trained video diffusion model—no task-specific fine-tuning.</div> -->
-        <div class="craft-info-box">
-          <p>
-            Bimanual robot learning from demonstrations is fundamentally limited by the cost and narrow visual diversity of real-world data, which constrains policy robustness across viewpoints, object configurations, and embodiments. We present <span class="craft-acronym">C</span>anny-guided <span class="craft-acronym">R</span>obot D<span class="craft-acronym">a</span>ta Generation using Video Di<span class="craft-acronym">f</span>fusion <span class="craft-acronym">T</span>ransformers (CRAFT), a video diffusion-based framework for scalable bimanual demonstration generation that synthesizes temporally coherent manipulation videos while producing action labels.
-            By conditioning video diffusion on edge-based structural cues extracted from simulator-generated trajectories, CRAFT produces physically plausible trajectory variations and supports a unified augmentation pipeline spanning object pose changes, lighting and background variations, cross-embodiment transfer, and multi-view synthesis.
-            We leverage a pre-trained video diffusion model to convert simulated videos, along with action labels from the simulation trajectories, into action-consistent demonstrations. Starting from only a few real-world demonstrations, CRAFT generates a large, visually diverse set of photorealistic training data, bypassing the need to replay demonstrations on the real robot (Sim2Real).
-            Across simulated and real-world bimanual tasks, CRAFT improves success rates over existing augmentation strategies and straightforward data scaling, demonstrating that diffusion-based video generation can substantially expand demonstration diversity and improve generalization for coordinated dual-arm manipulation.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <section class="craft-section craft-scroll-animate craft-section-alt" id="BibTeX">
   <div class="container is-max-desktop content">
     <h2 class="craft-section-title">BibTeX</h2>
     <div class="craft-bibtex-box">
-      <pre>@inproceedings{chen2026craft,
+      <button type="button" class="craft-bibtex-copy" id="craft-bibtex-copy" aria-label="Copy BibTeX">
+        <i class="far fa-copy" aria-hidden="true"></i>
+        <span class="craft-bibtex-copy-label">Copy</span>
+      </button>
+      <pre id="craft-bibtex-text">@inproceedings{chen2026craft,
   title={{CRAFT: Video Diffusion for Bimanual Robot Data Generation}},
   author={Jason Chen and I-Chun Arthur Liu and Gaurav Sukhatme and Daniel Seita},
   booktitle={International Conference on Intelligent Robots and Systems (IROS)},
@@ -818,13 +807,28 @@
 
 <footer class="footer craft-footer">
   <div class="container">
-    <div class="columns is-centered">
-      <div class="column is-8 has-text-centered">
-        <p class="craft-footer-credit">
-          This website was adapted from <a href="https://opendrivelab.com/kai0-rl/" target="_blank" rel="noopener noreferrer">RISE (OpenDriveLab)</a>, <a href="https://robometer.github.io/" target="_blank" rel="noopener noreferrer">Robometer</a>, and <a href="https://people.csail.mit.edu/yichenl/projects/multimodalvideo/" target="_blank" rel="noopener noreferrer">Multimodal Video Generation</a>.
-        </p>
+    <div class="craft-footer-inner">
+      <div class="craft-footer-brand">
+        <span class="craft-footer-logo">CRAFT<span class="craft-footer-logo-dot"></span></span>
+        <p class="craft-footer-title">Video Diffusion for Bimanual Robot Data Generation</p>
+        <p class="craft-footer-venue">International Conference on Intelligent Robots and Systems (IROS)</p>
+      </div>
+      <div class="craft-footer-links">
+        <a href="https://arxiv.org/abs/2604.03552" target="_blank" rel="noopener noreferrer">
+          <img src="./static/images/arxiv.svg" alt="" class="craft-footer-link-icon"><span>arXiv</span>
+        </a>
+        <a href="https://arxiv.org/pdf/2604.03552" target="_blank" rel="noopener noreferrer">
+          <img src="./static/images/pdf.svg" alt="" class="craft-footer-link-icon"><span>Paper</span>
+        </a>
+        <span class="craft-footer-link-disabled">
+          <i class="fab fa-github"></i><span>Code (Coming Soon)</span>
+        </span>
       </div>
     </div>
+    <div class="craft-footer-divider"></div>
+    <p class="craft-footer-credit">
+      This website was adapted from <a href="https://opendrivelab.com/kai0-rl/" target="_blank" rel="noopener noreferrer">RISE (OpenDriveLab)</a>, <a href="https://robometer.github.io/" target="_blank" rel="noopener noreferrer">Robometer</a>, and <a href="https://people.csail.mit.edu/yichenl/projects/multimodalvideo/" target="_blank" rel="noopener noreferrer">Multimodal Video Generation</a>.
+    </p>
   </div>
 </footer>
 
@@ -1156,7 +1160,49 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Below-hero videos: pause when off-screen. Do not pause clips inside display:none tabs — that
+  // Copy BibTeX to clipboard
+  (function setupBibtexCopy() {
+    var btn = document.getElementById('craft-bibtex-copy');
+    var pre = document.getElementById('craft-bibtex-text');
+    if (!btn || !pre) return;
+    var labelEl = btn.querySelector('.craft-bibtex-copy-label');
+    var iconEl = btn.querySelector('i');
+    var resetTimer;
+    function showCopied(ok) {
+      btn.classList.add('is-copied');
+      if (labelEl) labelEl.textContent = ok ? 'Copied!' : 'Press ⌘C';
+      if (iconEl) iconEl.className = ok ? 'fas fa-check' : 'far fa-copy';
+      clearTimeout(resetTimer);
+      resetTimer = setTimeout(function() {
+        btn.classList.remove('is-copied');
+        if (labelEl) labelEl.textContent = 'Copy';
+        if (iconEl) iconEl.className = 'far fa-copy';
+      }, 2000);
+    }
+    btn.addEventListener('click', function() {
+      var text = pre.innerText;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function() { showCopied(true); }, function() { fallbackCopy(text); });
+      } else {
+        fallbackCopy(text);
+      }
+    });
+    function fallbackCopy(text) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'absolute';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      showCopied(ok);
+    }
+  })();
+
+  // Below-hero videos: pause when off-screen. Do not pause clips inside display:none tabs - that
   // blocks loading on iOS and leaves the load toast stuck.
   (function setupViewportBoundVideos() {
     if (!('IntersectionObserver' in window)) return;
@@ -1233,58 +1279,161 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
+  var chartFontFamily = "'Noto Sans', 'Google Sans', system-ui, sans-serif";
+  if (typeof Chart !== 'undefined') {
+    Chart.defaults.font.family = chartFontFamily;
+    Chart.defaults.color = '#475569';
+  }
+
+  // Vertical gradient fill for bars (lighter top -> saturated bottom).
+  // Scriptable so it can build a canvas gradient once the chart area exists.
+  function barGradient(top, bottom) {
+    return function(context) {
+      var chart = context.chart;
+      var ctx = chart.ctx;
+      var area = chart.chartArea;
+      if (!area) return bottom; // first paint, before layout
+      var g = ctx.createLinearGradient(0, area.top, 0, area.bottom);
+      g.addColorStop(0, top);
+      g.addColorStop(1, bottom);
+      return g;
+    };
+  }
+
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
-    animation: {
-      duration: 700
-    },
-    layout: { padding: { top: 20, right: 24, bottom: 16, left: 16 } },
+    animation: { duration: 900, easing: 'easeOutQuart' },
+    layout: { padding: { top: 20, right: 24, bottom: 8, left: 8 } },
     plugins: {
-      legend: { position: 'bottom', labels: { padding: 20, boxWidth: 16, font: { size: 12 } } }
+      legend: {
+        position: 'bottom',
+        onClick: function() {}, // disable click-to-toggle datasets
+        labels: {
+          padding: 20,
+          usePointStyle: true,
+          pointStyle: 'circle',
+          font: { size: 12, weight: '600' },
+          color: '#334155',
+          generateLabels: function(chart) {
+            return chart.data.datasets.map(function(ds, i) {
+              var meta = chart.getDatasetMeta(i);
+              return {
+                text: ds.label,
+                fillStyle: ds._swatch || ds.backgroundColor,
+                strokeStyle: ds._swatch || ds.backgroundColor,
+                lineWidth: 0,
+                pointStyle: 'circle',
+                hidden: !chart.isDatasetVisible(i),
+                datasetIndex: i
+              };
+            });
+          }
+        }
+      },
+      tooltip: {
+        backgroundColor: 'rgba(15, 23, 42, 0.95)',
+        titleColor: '#f8fafc',
+        bodyColor: '#e2e8f0',
+        padding: 12,
+        cornerRadius: 10,
+        boxPadding: 6,
+        usePointStyle: true,
+        titleFont: { size: 13, weight: '700' },
+        bodyFont: { size: 12 },
+        displayColors: true,
+        callbacks: {
+          label: function(ctx) {
+            return '  ' + ctx.dataset.label + ': ' + ctx.parsed.y + '%';
+          },
+          labelColor: function(ctx) {
+            var sw = ctx.dataset._swatch || 'rgba(99,102,241,1)';
+            return { borderColor: sw, backgroundColor: sw, borderRadius: 4 };
+          }
+        }
+      }
     },
     elements: {
-      bar: {
-        borderRadius: 12,
-        borderSkipped: false
-      }
+      bar: { borderRadius: 8, borderSkipped: false }
     },
     scales: {
       x: {
-        ticks: { maxRotation: 25, minRotation: 25, font: { size: 12 }, padding: 10 },
-        barPercentage: 0.75,
-        categoryPercentage: 0.85
+        grid: { display: false, drawBorder: false },
+        border: { display: false },
+        ticks: {
+          maxRotation: 0, minRotation: 0, autoSkip: false,
+          font: { size: 12, weight: '600' }, padding: 10, color: '#475569',
+          // Keep labels horizontal: wrap long task names onto multiple lines instead of rotating.
+          callback: function(value) {
+            var label = this.getLabelForValue(value);
+            if (label.length <= 14) return label;
+            var words = label.split(' ');
+            var lines = [];
+            var cur = '';
+            words.forEach(function(w) {
+              if ((cur + ' ' + w).trim().length > 14) { if (cur) lines.push(cur); cur = w; }
+              else { cur = (cur ? cur + ' ' : '') + w; }
+            });
+            if (cur) lines.push(cur);
+            return lines;
+          }
+        },
+        barPercentage: 0.78,
+        categoryPercentage: 0.82
       },
       y: {
         min: 0,
         max: 100,
-        title: { display: true, text: 'Success Rate (%)', font: { size: 12 } },
-        ticks: { padding: 12, font: { size: 11 } }
+        grid: { color: 'rgba(148, 163, 184, 0.18)', drawBorder: false, lineWidth: 1 },
+        border: { display: false, dash: [4, 4] },
+        title: { display: true, text: 'Success Rate (%)', font: { size: 12, weight: '600' }, color: '#475569' },
+        ticks: { padding: 10, font: { size: 11 }, color: '#94a3b8', callback: function(v) { return v + '%'; } }
       }
     }
   };
   const labels = ['Lift Roller', 'Place Cans in Plasticbox', 'Stack Two Bowls'];
+  // Each entry: gradient top/bottom + matching legend swatch color.
   const colors = {
-    act: { bg: 'rgba(100, 116, 139, 0.9)', border: 'rgb(71, 85, 105)' },
-    pose: { bg: 'rgba(245, 158, 11, 0.9)', border: 'rgb(217, 119, 6)' },
-    baseline: { bg: 'rgba(6, 182, 212, 0.9)', border: 'rgb(8, 145, 178)' },
-    craft: { bg: 'rgba(16, 185, 129, 0.95)', border: 'rgb(5, 150, 105)' }
+    act:      { top: 'rgba(148, 163, 184, 0.85)', bottom: 'rgba(100, 116, 139, 0.95)', swatch: 'rgb(100, 116, 139)' },
+    pose:     { top: 'rgba(251, 191, 36, 0.9)',   bottom: 'rgba(245, 158, 11, 0.98)',  swatch: 'rgb(245, 158, 11)' },
+    baseline: { top: 'rgba(34, 211, 238, 0.9)',   bottom: 'rgba(6, 182, 212, 0.98)',   swatch: 'rgb(6, 182, 212)' },
+    craft:    { top: 'rgba(129, 140, 248, 0.98)', bottom: 'rgba(45, 125, 210, 1)',     swatch: 'rgb(99, 102, 241)' }
   };
 
   function makeDataset(label, data, colorKey) {
     const c = colors[colorKey];
-    return { label, data, backgroundColor: c.bg, borderColor: c.border, borderWidth: 1 };
+    return {
+      label, data,
+      backgroundColor: barGradient(c.top, c.bottom),
+      hoverBackgroundColor: barGradient(c.top, c.bottom),
+      borderWidth: 0,
+      borderRadius: 8,
+      borderSkipped: false,
+      maxBarThickness: 54,
+      pointStyle: 'circle',
+      _swatch: c.swatch
+    };
   }
 
   const crossEmbodimentColors = {
-    collected: { bg: 'rgba(100, 116, 139, 0.9)', border: 'rgb(71, 85, 105)' },
-    shadow: { bg: 'rgba(239, 68, 68, 0.85)', border: 'rgb(185, 28, 28)' },
-    craftTarget: { bg: 'rgba(245, 158, 11, 0.9)', border: 'rgb(217, 119, 6)' },
-    craft: { bg: 'rgba(16, 185, 129, 0.95)', border: 'rgb(5, 150, 105)' }
+    collected:   { top: 'rgba(148, 163, 184, 0.85)', bottom: 'rgba(100, 116, 139, 0.95)', swatch: 'rgb(100, 116, 139)' },
+    shadow:      { top: 'rgba(248, 113, 113, 0.9)',  bottom: 'rgba(239, 68, 68, 0.98)',   swatch: 'rgb(239, 68, 68)' },
+    craftTarget: { top: 'rgba(251, 191, 36, 0.9)',   bottom: 'rgba(245, 158, 11, 0.98)',  swatch: 'rgb(245, 158, 11)' },
+    craft:       { top: 'rgba(129, 140, 248, 0.98)', bottom: 'rgba(45, 125, 210, 1)',     swatch: 'rgb(99, 102, 241)' }
   };
   function makeCrossEmbDataset(label, data, colorKey) {
     const c = crossEmbodimentColors[colorKey];
-    return { label, data, backgroundColor: c.bg, borderColor: c.border, borderWidth: 1 };
+    return {
+      label, data,
+      backgroundColor: barGradient(c.top, c.bottom),
+      hoverBackgroundColor: barGradient(c.top, c.bottom),
+      borderWidth: 0,
+      borderRadius: 8,
+      borderSkipped: false,
+      maxBarThickness: 54,
+      pointStyle: 'circle',
+      _swatch: c.swatch
+    };
   }
 
   window.craftResultsChartConfigs = {
@@ -1293,9 +1442,9 @@ document.addEventListener('DOMContentLoaded', function() {
       data: {
         labels,
         datasets: [
-          makeDataset('ACT w/o Aug', [15, 5, 0], 'act'),
+          makeDataset('ACT without Augmentation', [15, 5, 0], 'act'),
           makeDataset('CRAFT Pose-Only', [25, 15, 10], 'pose'),
-          makeDataset('ACT w/ Baseline', [65, 45, 40], 'baseline'),
+          makeDataset('ACT with Baseline', [65, 45, 40], 'baseline'),
           makeDataset('CRAFT (Ours)', [85, 70, 60], 'craft')
         ]
       },
@@ -1306,9 +1455,9 @@ document.addEventListener('DOMContentLoaded', function() {
       data: {
         labels,
         datasets: [
-          makeDataset('ACT w/o Aug', [20, 0, 0], 'act'),
+          makeDataset('ACT without Augmentation', [20, 0, 0], 'act'),
           makeDataset('CRAFT Pose-Only', [35, 10, 15], 'pose'),
-          makeDataset('ACT w/ Baseline', [20, 25, 30], 'baseline'),
+          makeDataset('ACT with Baseline', [20, 25, 30], 'baseline'),
           makeDataset('CRAFT (Ours)', [90, 75, 50], 'craft')
         ]
       },
@@ -1319,9 +1468,9 @@ document.addEventListener('DOMContentLoaded', function() {
       data: {
         labels,
         datasets: [
-          makeDataset('ACT w/o Aug', [30, 15, 10], 'act'),
+          makeDataset('ACT without Augmentation', [30, 15, 10], 'act'),
           makeDataset('CRAFT Pose-Only', [65, 25, 35], 'pose'),
-          makeDataset('ACT w/ Baseline', [70, 40, 30], 'baseline'),
+          makeDataset('ACT with Baseline', [70, 40, 30], 'baseline'),
           makeDataset('CRAFT (Ours)', [95, 90, 90], 'craft')
         ]
       },
@@ -1332,9 +1481,9 @@ document.addEventListener('DOMContentLoaded', function() {
       data: {
         labels,
         datasets: [
-          makeDataset('ACT w/o Aug', [10, 0, 5], 'act'),
+          makeDataset('ACT without Augmentation', [10, 0, 5], 'act'),
           makeDataset('CRAFT Pose-Only', [25, 10, 15], 'pose'),
-          makeDataset('ACT w/ Baseline', [75, 45, 55], 'baseline'),
+          makeDataset('ACT with Baseline', [75, 45, 55], 'baseline'),
           makeDataset('CRAFT (Ours)', [90, 90, 85], 'craft')
         ]
       },
@@ -1345,7 +1494,7 @@ document.addEventListener('DOMContentLoaded', function() {
       data: {
         labels,
         datasets: [
-          makeDataset('ACT w/o Aug', [65, 40, 50], 'act'),
+          makeDataset('ACT without Augmentation', [65, 40, 50], 'act'),
           makeDataset('CRAFT Pose-Only', [75, 55, 65], 'pose'),
           makeDataset('CRAFT (Ours)', [100, 95, 100], 'craft')
         ]
@@ -1358,7 +1507,7 @@ document.addEventListener('DOMContentLoaded', function() {
         labels,
         datasets: [
           makeCrossEmbDataset('Collected Target', [25, 10, 15], 'collected'),
-          makeCrossEmbDataset('Shadow [10]', [10, 5, 5], 'shadow'),
+          makeCrossEmbDataset('Shadow', [10, 5, 5], 'shadow'),
           makeCrossEmbDataset('CRAFT (Target)', [20, 5, 10], 'craftTarget'),
           makeCrossEmbDataset('CRAFT (Ours)', [85, 75, 80], 'craft')
         ]

@@ -625,24 +625,25 @@ body {
   font-family: 'Google Sans', sans-serif;
   font-size: 3.25rem;
   font-weight: 700;
-  color: white;
+  color: #ffffff;
   line-height: 1.15;
   text-align: center;
-  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.45);
+  /* Solid white + layered dark halo so it stays crisp/bright over light parts of the video */
+  text-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.6),
+    0 2px 8px rgba(0, 0, 0, 0.55),
+    0 4px 22px rgba(0, 0, 0, 0.5);
   margin: 0 0 0.5rem;
 }
 
-.craft-title-gradient {
-  color: white;
-}
-
-@supports (-webkit-background-clip: text) {
-  .craft-title-gradient {
-    background: linear-gradient(90deg, #ffffff 0%, #dbeafe 35%, #c7d2fe 70%, #ffffff 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
+/* Force solid white even where the gradient-clip override was applied */
+.craft-title-gradient,
+.craft-title.craft-title-gradient {
+  color: #ffffff;
+  background: none;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  -webkit-text-fill-color: #ffffff;
 }
 
 .craft-zero-shot-badge {
@@ -1099,9 +1100,124 @@ body {
   }
 }
 
+/* ===== TL;DR / Overview card ===== */
+.craft-tldr-container {
+  margin: 2.25rem auto 0.5rem;
+  padding: 0 1.5rem;
+}
+
+.craft-tldr-card {
+  max-width: 880px;
+  margin: 0 auto;
+  background: linear-gradient(180deg, #ffffff 0%, #f6f9ff 100%);
+  border: 1px solid #e6ecf6;
+  border-radius: 18px;
+  padding: 1.75rem 2rem;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.07);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Accent strip along the top of the card */
+.craft-tldr-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #6366f1 0%, #2d7dd2 100%);
+}
+
+.craft-tldr-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #ffffff;
+  background: linear-gradient(90deg, #6366f1 0%, #2d7dd2 100%);
+  padding: 0.28rem 0.75rem;
+  border-radius: 999px;
+  box-shadow: 0 5px 14px rgba(79, 70, 229, 0.25);
+}
+
+.craft-tldr-lead {
+  margin: 0.9rem 0 0;
+  font-size: 1.15rem;
+  line-height: 1.55;
+  color: #1e293b;
+  font-weight: 500;
+}
+
+.craft-tldr-lead strong {
+  color: #4f46e5;
+  font-weight: 700;
+}
+
+.craft-tldr-points {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 1.4rem;
+}
+
+.craft-tldr-point {
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+  background: #ffffff;
+  border: 1px solid #e8eef8;
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+}
+
+.craft-tldr-point-icon {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.92rem;
+  color: #ffffff;
+}
+
+.craft-tldr-point-icon-problem { background: linear-gradient(135deg, #fb7185, #ef4444); }
+.craft-tldr-point-icon-idea    { background: linear-gradient(135deg, #fbbf24, #f59e0b); }
+
+.craft-tldr-point h4 {
+  margin: 0.05rem 0 0.25rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #334155;
+}
+
+.craft-tldr-point p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: #475569;
+}
+
+@media (max-width: 768px) {
+  .craft-tldr-card {
+    padding: 1.5rem 1.4rem;
+  }
+  .craft-tldr-lead {
+    font-size: 1.04rem;
+  }
+  .craft-tldr-points {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+}
+
 /* ===== CRAFT Content Sections ===== */
 .craft-section {
-  padding: 4rem 1.5rem;
+  padding: 2.5rem 1.5rem;
 }
 
 .craft-section-alt {
@@ -1779,6 +1895,7 @@ body {
 
 /* BibTeX */
 .craft-bibtex-box {
+  position: relative;
   background: #0f172a;
   color: #f1f5f9;
   border-radius: 14px;
@@ -1786,6 +1903,42 @@ body {
   overflow-x: auto;
   border: 1px solid rgba(148, 163, 184, 0.16);
   box-shadow: 0 14px 34px rgba(2, 6, 23, 0.18);
+}
+
+.craft-bibtex-copy {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: #e2e8f0;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.craft-bibtex-copy:hover {
+  background: rgba(99, 102, 241, 0.25);
+  border-color: rgba(129, 140, 248, 0.5);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.craft-bibtex-copy.is-copied {
+  background: rgba(16, 185, 129, 0.25);
+  border-color: rgba(52, 211, 153, 0.6);
+  color: #d1fae5;
+}
+
+.craft-bibtex-copy i {
+  font-size: 0.85rem;
 }
 
 .craft-bibtex-box pre {
@@ -2351,25 +2504,134 @@ body {
 /* keep old styles below */
 
 .craft-footer {
-  padding: 2rem 1.5rem;
-  background: #f8fafc;
-  border-top: 1px solid #e2e8f0;
+  padding: 3rem 1.5rem 2.25rem;
+  background: linear-gradient(180deg, #0f172a 0%, #0b1220 100%);
+  border-top: 1px solid rgba(148, 163, 184, 0.15);
+}
+
+.craft-footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.craft-footer-brand {
+  text-align: left;
+}
+
+.craft-footer-logo {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.18rem;
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: 0.22em;
+  color: #ffffff;
+}
+
+.craft-footer-logo-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #6366f1;
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.7);
+}
+
+.craft-footer-title {
+  margin: 0.5rem 0 0.15rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.craft-footer-venue {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.craft-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.craft-footer-links a,
+.craft-footer-link-disabled {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
+}
+
+.craft-footer-links a:hover {
+  background: rgba(99, 102, 241, 0.25);
+  border-color: rgba(129, 140, 248, 0.5);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.craft-footer-link-icon {
+  width: 15px;
+  height: 15px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
+.craft-footer-link-disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.craft-footer-divider {
+  max-width: 1000px;
+  margin: 1.75rem auto 1.25rem;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(148,163,184,0) 0%, rgba(148,163,184,0.25) 50%, rgba(148,163,184,0) 100%);
 }
 
 .craft-footer-credit {
   margin: 0;
-  font-size: 0.9rem;
-  color: #64748b;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #94a3b8;
 }
 
 .craft-footer-credit a {
-  color: #2d7dd2;
+  color: #a5b4fc;
   font-weight: 500;
   text-decoration: none;
 }
 
 .craft-footer-credit a:hover {
+  color: #c7d2fe;
   text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .craft-footer-inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .craft-footer-brand {
+    text-align: center;
+  }
+  .craft-footer-links {
+    justify-content: center;
+  }
 }
 
 .footer .icon-link {
